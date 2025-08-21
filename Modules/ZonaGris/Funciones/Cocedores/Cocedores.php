@@ -347,7 +347,7 @@ class Cocedores
 
         // Calcula diferencia en horas
         $diferencia = (strtotime($fecha_hora) - strtotime($ultima)) / 3600;
-
+        Logger::info("Validando consecutividad: última hora: $ultima, nueva hora: $fecha_hora, diferencia: $diferencia horas");
         if ($diferencia > 1) {
             return [
                 'ok' => false,

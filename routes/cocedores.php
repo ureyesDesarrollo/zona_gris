@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\Logger;
 use Modules\ZonaGris\Catalogos\Cocedores\CatalogoCocedoresController;
 use Modules\ZonaGris\Funciones\Cocedores\CocedoresController;
 use Modules\ZonaGris\Funciones\Cocedores\CocedoresPlc;
@@ -111,6 +112,7 @@ $router->add(
             $dt = new DateTimeImmutable($s); // ISO ok (maneja Z/offset)
             $dt = $dt->setTimezone(new DateTimeZone('America/Mexico_City'));
             $fechaSql = $dt->format('Y-m-d H:i:s'); // para DATETIME
+            Logger::info("Validando consecutividad para relación $relacion_id con fecha $fechaSql");
         } catch (Throwable $e) {
             http_response_code(400);
             echo json_encode(['ok' => false, 'error' => 'Fecha inválida']);
