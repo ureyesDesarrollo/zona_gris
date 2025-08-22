@@ -1,44 +1,43 @@
-[2025-08-19 17:20:24] [INFO] Registro horario insertado
-[2025-08-19 17:38:36] [INFO] Registro horario insertado
-[2025-08-19 18:52:35] [INFO] Combinación de procesos creada en múltiples cocedores
-[2025-08-19 18:56:41] [INFO] Combinación de procesos creada en múltiples cocedores
-[2025-08-19 18:57:20] [INFO] Registro horario insertado
-[2025-08-19 22:14:46] [ERROR] Error al obtener detalle de cocedor-proceso: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
-[2025-08-19 22:14:49] [ERROR] Error al obtener detalle de cocedor-proceso: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
-[2025-08-19 22:14:51] [ERROR] Error al obtener detalle de cocedor-proceso: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
-[2025-08-19 22:15:10] [ERROR] Error al obtener detalle de cocedor-proceso: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
-[2025-08-20 16:03:30] [INFO] Combinación de procesos creada en múltiples cocedores
-[2025-08-20 16:40:00] [INFO] Combinación de procesos creada en múltiples cocedores
-[2025-08-20 20:47:00] [INFO] Registro horario insertado
-[2025-08-20 21:00:31] [INFO] Registro horario insertado
-[2025-08-20 21:00:56] [INFO] Registro horario insertado
-[2025-08-20 21:01:27] [INFO] Registro horario insertado
-[2025-08-20 21:01:57] [INFO] Registro horario insertado
-[2025-08-20 21:02:23] [INFO] Registro horario insertado
-[2025-08-20 21:02:41] [INFO] Registro horario insertado
-[2025-08-21 20:12:40] [INFO] Combinación de procesos creada en múltiples cocedores
-[2025-08-21 20:14:42] [INFO] Registro horario insertado
-[2025-08-21 20:17:00] [INFO] Registro horario insertado
-[2025-08-21 20:18:01] [INFO] Registro horario insertado
-[2025-08-21 21:32:22] [INFO] Validando consecutividad: última hora: 2025-08-21 14:13:00, nueva hora: 2025-08-21 16:32:22, diferencia: 2.3227777777778 horas
-[2025-08-21 21:38:37] [INFO] Validando consecutividad: última hora: 2025-08-21 14:13:00, nueva hora: 2025-08-21 16:38:37, diferencia: 2.4269444444444 horas
-[2025-08-21 21:41:05] [INFO] Validando consecutividad para relación 1 con fecha 2025-08-21 16:41:05
-[2025-08-21 21:41:05] [INFO] Validando consecutividad: última hora: 2025-08-21 14:13:00, nueva hora: 2025-08-21 16:41:05, diferencia: 2.4680555555556 horas
-[2025-08-21 16:53:14] [INFO] Validando consecutividad para relación 1 con fecha 2025-08-21 16:53:14
-[2025-08-21 16:53:14] [INFO] Validando consecutividad: última hora: 2025-08-21 14:13:00, nueva hora: 2025-08-21 16:53:14, diferencia: 2.6705555555556 horas
-[2025-08-21 21:54:47] [ERROR] Error de conexión: could not find driver
-[2025-08-21 21:54:47] [ERROR] Error de conexión: could not find driver
-[2025-08-21 21:54:47] [ERROR] Error de conexión: could not find driver
-[2025-08-21 21:55:03] [ERROR] Error de conexión: could not find driver
-[2025-08-21 16:05:26] [INFO] Validando consecutividad para relación 1 con fecha 2025-08-21 16:05:26
-[2025-08-21 16:05:26] [INFO] Validando consecutividad: última hora: 2025-08-21 14:13:00, nueva hora: 2025-08-21 16:05:26, diferencia: 1.8738888888889 horas
-[2025-08-21 16:11:15] [INFO] Validando consecutividad para relación 1 con fecha 2025-08-21 16:11:00
-[2025-08-21 16:11:15] [INFO] Validando consecutividad: última hora: 2025-08-21 14:13:00, nueva hora: 2025-08-21 16:11:00, diferencia: 1.9666666666667 horas
-[2025-08-21 17:33:40] [INFO] Validando consecutividad para relación 1 con fecha 2025-08-21 17:33:00
-[2025-08-21 17:33:40] [INFO] Validando consecutividad: última hora: 2025-08-21 14:13:00, nueva hora: 2025-08-21 17:33:00, diferencia: 3.3333333333333 horas
-[2025-08-21 17:34:40] [INFO] Validando consecutividad para relación 1 con fecha 2025-08-21 17:34:00
-[2025-08-21 17:34:41] [INFO] Validando consecutividad: última hora: 2025-08-21 14:13:00, nueva hora: 2025-08-21 17:34:00, diferencia: 3.35 horas
-[2025-08-21 17:35:18] [INFO] Validando consecutividad para relación 1 con fecha 2025-08-21 17:35:00
-[2025-08-21 17:35:18] [INFO] Validando consecutividad: última hora: 2025-08-21 14:13:00, nueva hora: 2025-08-21 17:35:00, diferencia: 3.3666666666667 horas
-[2025-08-21 17:35:57] [INFO] Validando consecutividad para relación 1 con fecha 2025-08-21 17:35:00
-[2025-08-21 17:35:57] [INFO] Validando consecutividad: última hora: 2025-08-21 14:13:00, nueva hora: 2025-08-21 17:35:00, diferencia: 3.3666666666667 horas
+[2025-08-22 11:54:28] [ERROR] Error al registrar paro, SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cocedor_id' in 'field list'
+[2025-08-22 11:54:38] [ERROR] Error al registrar paro, SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cocedor_id' in 'field list'
+[2025-08-22 11:54:50] [INFO] Combinación de procesos creada en múltiples cocedores
+[2025-08-22 11:56:40] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 11:56:00
+[2025-08-22 11:56:41] [INFO] Registro horario insertado
+[2025-08-22 11:57:11] [INFO] Validando consecutividad para relación 3 con fecha 2025-08-22 11:57:00
+[2025-08-22 11:57:39] [INFO] Validando consecutividad para relación 4 con fecha 2025-08-22 11:57:00
+[2025-08-22 11:57:39] [INFO] Registro horario insertado
+[2025-08-22 11:57:56] [INFO] Validando consecutividad para relación 3 con fecha 2025-08-22 11:57:00
+[2025-08-22 11:57:56] [INFO] Registro horario insertado
+[2025-08-22 11:58:21] [INFO] Validando consecutividad para relación 5 con fecha 2025-08-22 11:58:00
+[2025-08-22 11:58:33] [INFO] Validando consecutividad para relación 5 con fecha 2025-08-22 11:58:00
+[2025-08-22 11:58:33] [INFO] Registro horario insertado
+[2025-08-22 11:58:56] [INFO] Validando consecutividad para relación 6 con fecha 2025-08-22 11:58:00
+[2025-08-22 11:58:56] [INFO] Registro horario insertado
+[2025-08-22 12:19:15] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 12:19:00
+[2025-08-22 12:19:15] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22 12:19:00, diferencia: 0.4 horas
+[2025-08-22 12:19:16] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22T12:19, diferencia: 0.4 horas
+[2025-08-22 12:19:16] [INFO] Registro horario insertado
+[2025-08-22 12:19:31] [INFO] Validando consecutividad para relación 3 con fecha 2025-08-22 12:19:00
+[2025-08-22 12:19:31] [INFO] Validando consecutividad: última hora: 2025-08-22 11:57:00, nueva hora: 2025-08-22 12:19:00, diferencia: 0.36666666666667 horas
+[2025-08-22 12:19:31] [INFO] Validando consecutividad: última hora: 2025-08-22 11:57:00, nueva hora: 2025-08-22T12:19, diferencia: 0.36666666666667 horas
+[2025-08-22 12:19:31] [INFO] Registro horario insertado
+[2025-08-22 12:19:41] [INFO] Validando consecutividad para relación 4 con fecha 2025-08-22 12:19:00
+[2025-08-22 12:19:41] [INFO] Validando consecutividad: última hora: 2025-08-22 11:57:00, nueva hora: 2025-08-22 12:19:00, diferencia: 0.36666666666667 horas
+[2025-08-22 12:19:41] [INFO] Validando consecutividad: última hora: 2025-08-22 11:57:00, nueva hora: 2025-08-22T12:19, diferencia: 0.36666666666667 horas
+[2025-08-22 12:19:41] [INFO] Registro horario insertado
+[2025-08-22 12:19:56] [INFO] Validando consecutividad para relación 5 con fecha 2025-08-22 12:19:00
+[2025-08-22 12:19:56] [INFO] Validando consecutividad: última hora: 2025-08-22 11:58:00, nueva hora: 2025-08-22 12:19:00, diferencia: 0.35 horas
+[2025-08-22 12:19:56] [INFO] Validando consecutividad: última hora: 2025-08-22 11:58:00, nueva hora: 2025-08-22T12:19, diferencia: 0.35 horas
+[2025-08-22 12:19:56] [INFO] Registro horario insertado
+[2025-08-22 12:20:05] [INFO] Validando consecutividad para relación 6 con fecha 2025-08-22 12:20:00
+[2025-08-22 12:20:05] [INFO] Validando consecutividad: última hora: 2025-08-22 11:58:00, nueva hora: 2025-08-22 12:20:00, diferencia: 0.36666666666667 horas
+[2025-08-22 12:20:05] [INFO] Validando consecutividad: última hora: 2025-08-22 11:58:00, nueva hora: 2025-08-22T12:19, diferencia: 0.35 horas
+[2025-08-22 12:20:05] [INFO] Registro horario insertado
+[2025-08-22 13:57:35] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 13:57:00
+[2025-08-22 13:57:35] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22 13:57:00, diferencia: 2.0333333333333 horas
+[2025-08-22 13:58:36] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 13:58:00
+[2025-08-22 13:58:36] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22 13:58:00, diferencia: 2.05 horas
+[2025-08-22 13:59:25] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 13:59:00
+[2025-08-22 13:59:25] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22 13:59:00, diferencia: 2.0666666666667 horas
+[2025-08-22 14:00:20] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 14:00:00
+[2025-08-22 14:00:20] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22 14:00:00, diferencia: 2.0833333333333 horas
