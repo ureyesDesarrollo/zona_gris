@@ -27,6 +27,8 @@ class ComposerStaticInit6b75dda7b53f8dca4bdb52f199a5a291
         array (
             'Modules\\ZonaGris\\' => 17,
             'Modules\\Auth\\' => 13,
+            'Modules\\Alertas\\Teams\\' => 22,
+            'Modules\\Alertas\\' => 16,
         ),
         'G' => 
         array (
@@ -66,6 +68,14 @@ class ComposerStaticInit6b75dda7b53f8dca4bdb52f199a5a291
         'Modules\\Auth\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Modules/Auth',
+        ),
+        'Modules\\Alertas\\Teams\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Modules/Alertas/Teams',
+        ),
+        'Modules\\Alertas\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Modules/Alertas',
         ),
         'GrahamCampbell\\ResultType\\' => 
         array (

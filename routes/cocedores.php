@@ -190,3 +190,19 @@ $router->add(
         $funciones->obtenerDetalleCocedorProceso($id);
     }
 );
+
+$router->add(
+    'GET',
+    '/api/zonagris/funciones/cocedores/obtener-mezcla-en-proceso',
+    function () use ($funciones) {
+        $funciones->obtenerMezclaEnProceso();
+    }
+);
+
+$router->add(
+    'GET',
+    '/api/zonagris/funciones/cocedores/obtener-mezcla-by-id/(\d+)',
+    function ($id) use ($funciones) {
+        $funciones->obtenerMezclaById($id);
+    }
+);

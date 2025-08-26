@@ -14,3 +14,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/cocedores.php';
 require_once __DIR__ . '/perfil.php';
+require_once __DIR__ . '/alertas.php';

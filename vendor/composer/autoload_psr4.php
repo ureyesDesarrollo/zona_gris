@@ -12,6 +12,8 @@ return array(
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
     'Modules\\ZonaGris\\' => array($baseDir . '/Modules/ZonaGris'),
     'Modules\\Auth\\' => array($baseDir . '/Modules/Auth'),
+    'Modules\\Alertas\\Teams\\' => array($baseDir . '/Modules/Alertas/Teams'),
+    'Modules\\Alertas\\' => array($baseDir . '/Modules/Alertas'),
     'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
     'App\\' => array($baseDir . '/app'),

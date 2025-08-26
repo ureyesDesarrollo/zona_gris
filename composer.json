@@ -4,7 +4,9 @@
         "psr-4": {
             "App\\": "app/",
             "Modules\\ZonaGris\\": "Modules/ZonaGris/",
-            "Modules\\Auth\\": "Modules/Auth/"
+            "Modules\\Auth\\": "Modules/Auth/",
+            "Modules\\Alertas\\Teams\\": "Modules/Alertas/Teams/",
+            "Modules\\Alertas\\": "Modules/Alertas/"
         }
     },
     "authors": [

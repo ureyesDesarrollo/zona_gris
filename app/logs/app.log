@@ -1,43 +1,30 @@
-[2025-08-22 11:54:28] [ERROR] Error al registrar paro, SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cocedor_id' in 'field list'
-[2025-08-22 11:54:38] [ERROR] Error al registrar paro, SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cocedor_id' in 'field list'
-[2025-08-22 11:54:50] [INFO] Combinación de procesos creada en múltiples cocedores
-[2025-08-22 11:56:40] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 11:56:00
-[2025-08-22 11:56:41] [INFO] Registro horario insertado
-[2025-08-22 11:57:11] [INFO] Validando consecutividad para relación 3 con fecha 2025-08-22 11:57:00
-[2025-08-22 11:57:39] [INFO] Validando consecutividad para relación 4 con fecha 2025-08-22 11:57:00
-[2025-08-22 11:57:39] [INFO] Registro horario insertado
-[2025-08-22 11:57:56] [INFO] Validando consecutividad para relación 3 con fecha 2025-08-22 11:57:00
-[2025-08-22 11:57:56] [INFO] Registro horario insertado
-[2025-08-22 11:58:21] [INFO] Validando consecutividad para relación 5 con fecha 2025-08-22 11:58:00
-[2025-08-22 11:58:33] [INFO] Validando consecutividad para relación 5 con fecha 2025-08-22 11:58:00
-[2025-08-22 11:58:33] [INFO] Registro horario insertado
-[2025-08-22 11:58:56] [INFO] Validando consecutividad para relación 6 con fecha 2025-08-22 11:58:00
-[2025-08-22 11:58:56] [INFO] Registro horario insertado
-[2025-08-22 12:19:15] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 12:19:00
-[2025-08-22 12:19:15] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22 12:19:00, diferencia: 0.4 horas
-[2025-08-22 12:19:16] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22T12:19, diferencia: 0.4 horas
-[2025-08-22 12:19:16] [INFO] Registro horario insertado
-[2025-08-22 12:19:31] [INFO] Validando consecutividad para relación 3 con fecha 2025-08-22 12:19:00
-[2025-08-22 12:19:31] [INFO] Validando consecutividad: última hora: 2025-08-22 11:57:00, nueva hora: 2025-08-22 12:19:00, diferencia: 0.36666666666667 horas
-[2025-08-22 12:19:31] [INFO] Validando consecutividad: última hora: 2025-08-22 11:57:00, nueva hora: 2025-08-22T12:19, diferencia: 0.36666666666667 horas
-[2025-08-22 12:19:31] [INFO] Registro horario insertado
-[2025-08-22 12:19:41] [INFO] Validando consecutividad para relación 4 con fecha 2025-08-22 12:19:00
-[2025-08-22 12:19:41] [INFO] Validando consecutividad: última hora: 2025-08-22 11:57:00, nueva hora: 2025-08-22 12:19:00, diferencia: 0.36666666666667 horas
-[2025-08-22 12:19:41] [INFO] Validando consecutividad: última hora: 2025-08-22 11:57:00, nueva hora: 2025-08-22T12:19, diferencia: 0.36666666666667 horas
-[2025-08-22 12:19:41] [INFO] Registro horario insertado
-[2025-08-22 12:19:56] [INFO] Validando consecutividad para relación 5 con fecha 2025-08-22 12:19:00
-[2025-08-22 12:19:56] [INFO] Validando consecutividad: última hora: 2025-08-22 11:58:00, nueva hora: 2025-08-22 12:19:00, diferencia: 0.35 horas
-[2025-08-22 12:19:56] [INFO] Validando consecutividad: última hora: 2025-08-22 11:58:00, nueva hora: 2025-08-22T12:19, diferencia: 0.35 horas
-[2025-08-22 12:19:56] [INFO] Registro horario insertado
-[2025-08-22 12:20:05] [INFO] Validando consecutividad para relación 6 con fecha 2025-08-22 12:20:00
-[2025-08-22 12:20:05] [INFO] Validando consecutividad: última hora: 2025-08-22 11:58:00, nueva hora: 2025-08-22 12:20:00, diferencia: 0.36666666666667 horas
-[2025-08-22 12:20:05] [INFO] Validando consecutividad: última hora: 2025-08-22 11:58:00, nueva hora: 2025-08-22T12:19, diferencia: 0.35 horas
-[2025-08-22 12:20:05] [INFO] Registro horario insertado
-[2025-08-22 13:57:35] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 13:57:00
-[2025-08-22 13:57:35] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22 13:57:00, diferencia: 2.0333333333333 horas
-[2025-08-22 13:58:36] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 13:58:00
-[2025-08-22 13:58:36] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22 13:58:00, diferencia: 2.05 horas
-[2025-08-22 13:59:25] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 13:59:00
-[2025-08-22 13:59:25] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22 13:59:00, diferencia: 2.0666666666667 horas
-[2025-08-22 14:00:20] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-22 14:00:00
-[2025-08-22 14:00:20] [INFO] Validando consecutividad: última hora: 2025-08-22 11:55:00, nueva hora: 2025-08-22 14:00:00, diferencia: 2.0833333333333 horas
+[2025-08-26 15:47:32] [INFO] Enviando alerta a Teams 🚨 Enviado desde El sistema con endpoint de php
+[2025-08-26 15:47:32] [INFO] Enviando alerta a Teams 2025-08-26 10:45, 🚨 Enviado desde El sistema con endpoint de php, Array
+[2025-08-26 15:48:20] [INFO] Enviando alerta a Teams 🚨 Enviado desde El sistema con endpoint de php
+[2025-08-26 15:48:20] [INFO] Enviando alerta a Teams 2025-08-26 10:45, 🚨 Enviado desde El sistema con endpoint de php, Array
+[2025-08-26 16:12:22] [INFO] Enviando alerta a Teams 🚨 Enviado desde El sistema con endpoint de php
+[2025-08-26 16:12:22] [INFO] Enviando alerta a Teams 2025-08-26 10:45, 🚨 Enviado desde El sistema con endpoint de php, Array
+[2025-08-26 16:13:39] [INFO] Enviando alerta a Teams 🚨 Enviado desde El sistema con endpoint de php
+[2025-08-26 16:13:39] [INFO] Enviando alerta a Teams 2025-08-26 10:45, 🚨 Enviado desde El sistema con endpoint de php, Array
+[2025-08-26 16:16:55] [INFO] Combinación de procesos creada en múltiples cocedores
+[2025-08-26 16:39:15] [INFO] Validando consecutividad para relación 13 con fecha 2025-08-26 16:39:00
+[2025-08-26 16:39:15] [INFO] Registro horario insertado
+[2025-08-26 16:41:56] [INFO] Validando consecutividad para relación 14 con fecha 2025-08-26 16:41:00
+[2025-08-26 16:41:56] [INFO] Registro horario insertado
+[2025-08-26 16:44:55] [INFO] Validando consecutividad para relación 15 con fecha 2025-08-26 16:44:00
+[2025-08-26 16:44:55] [INFO] Enviando alerta a Teams 🚨 Enviado desde el sistema con endpoint PHP
+[2025-08-26 16:44:55] [INFO] Enviando alerta a Teams 2025-08-26 16:44:55, 🚨 Enviado desde el sistema con endpoint PHP, Array
+[2025-08-26 16:44:55] [INFO] Registro horario insertado
+[2025-08-26 16:49:03] [INFO] Enviando alerta a Teams 🚨 Parámetros fuera de rango
+[2025-08-26 16:49:03] [INFO] Enviando alerta a Teams 2025-08-26 16:49:03, 🚨 Parámetros fuera de rango, Array
+[2025-08-26 16:49:03] [INFO] Validando consecutividad para relación 16 con fecha 2025-08-26 16:49:00
+[2025-08-26 16:49:03] [INFO] Registro horario insertado
+[2025-08-26 16:50:01] [INFO] Combinación de procesos creada en múltiples cocedores
+[2025-08-26 16:50:50] [INFO] Enviando alerta a Teams 🚨 Parámetros fuera de rango
+[2025-08-26 16:50:50] [INFO] Enviando alerta a Teams 2025-08-26 16:50:50, 🚨 Parámetros fuera de rango, Array
+[2025-08-26 16:50:50] [INFO] Validando consecutividad para relación 1 con fecha 2025-08-26 16:50:00
+[2025-08-26 16:50:50] [INFO] Registro horario insertado
+[2025-08-26 17:00:40] [INFO] Enviando alerta a Teams 🚨 Parámetros fuera o cerca del rango permitido
+[2025-08-26 17:00:40] [INFO] Enviando alerta a Teams 2025-08-26 17:00:40, 🚨 Parámetros fuera o cerca del rango permitido, Array
+[2025-08-26 17:00:40] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-26 17:00:00
+[2025-08-26 17:00:40] [INFO] Registro horario insertado

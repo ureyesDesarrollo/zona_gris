@@ -52,7 +52,7 @@ class CocedoresController extends BaseController
     {
         $data = Request::input();
         $validator = new Validator($data);
-        $validator->required(['proceso_agrupado_id', 'cocedor_id']);
+        $validator->required(['proceso_agrupado_id']);
 
         if ($validator->fails()) {
             $this->json(['success' => false, 'errors' => $validator->errors()], 400);
@@ -225,4 +225,22 @@ class CocedoresController extends BaseController
             $this->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function obtenerMezclaEnProceso(){
+        try {
+            $res = $this->CocedoresModel->obtenerMezclaEnProceso();
+            $this->json($res);
+        } catch (\Exception $e) {
+            $this->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function obtenerMezclaById($id){
+        try {
+            $res = $this->CocedoresModel->obtenerMezclaById($id);
+            $this->json($res);
+        } catch (\Exception $e) {
+            $this->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
+    }    
 }

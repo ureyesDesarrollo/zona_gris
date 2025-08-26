@@ -135,31 +135,20 @@ class Cocedores
         try {
             // Validar y preparar datos
             $proceso_agrupado_id = $data['proceso_agrupado_id'] ?? null;
-            $cocedor_id = $data['cocedor_id'] ?? null;
             $fecha_fin = $data['fecha_fin'] ?? date('Y-m-d H:i:s');
-
-            if (!$proceso_agrupado_id || !$cocedor_id) {
-                return [
-                    'success' => false,
-                    'error' => 'Faltan datos obligatorios (proceso_agrupado_id y/o cocedor_id)'
-                ];
-            }
 
             $stmt = $this->db->prepare("
             UPDATE procesos_cocedores_relacion
             SET fecha_fin = :fecha_fin
             WHERE proceso_agrupado_id = :proceso_agrupado_id
-              AND cocedor_id = :cocedor_id
               AND fecha_fin IS NULL
         ");
             $stmt->bindParam(':fecha_fin', $fecha_fin);
             $stmt->bindParam(':proceso_agrupado_id', $proceso_agrupado_id, PDO::PARAM_INT);
-            $stmt->bindParam(':cocedor_id', $cocedor_id, PDO::PARAM_INT);
             $stmt->execute();
 
             Logger::info("Mezcla finalizada en cocedor", [
                 'proceso_agrupado_id' => $proceso_agrupado_id,
-                'cocedor_id' => $cocedor_id,
                 'fecha_fin' => $fecha_fin
             ]);
             return ['success' => true];
@@ -499,17 +488,47 @@ class Cocedores
                 ON r.proceso_agrupado_id = a.proceso_agrupado_id
             INNER JOIN cocedores c 
                 ON r.cocedor_id = c.cocedor_id
-            INNER JOIN procesos_cocedores_detalle pcd ON pcd.relacion_id = r.relacion_id
-            INNER JOIN usuarios u ON u.usu_id = pcd.usuario_id
+            INNER JOIN procesos_cocedores_detalle pcd 
+                ON pcd.relacion_id = r.relacion_id
+            INNER JOIN usuarios u 
+                ON u.usu_id = pcd.usuario_id
             WHERE r.cocedor_id = :id
-            AND r.fecha_fin IS NULL
-            ORDER BY r.fecha_inicio DESC
+            ORDER BY pcd.fecha_hora DESC
             LIMIT 1");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
         } catch (PDOException $e) {
             Logger::error("Error al obtener detalle de cocedor-proceso: {mensaje}", ['mensaje' => $e->getMessage()]);
+            return [];
+        }
+    }
+
+    function obtenerMezclaEnProceso() : array {
+        try{
+            $stmt = $this->db->query("SELECT proceso_agrupado_id, supervisor_validado 
+            FROM procesos_cocedores_relacion pcr 
+            INNER JOIN procesos_cocedores_detalle pcd 
+            ON pcd.relacion_id = pcr.relacion_id 
+            WHERE pcr.fecha_fin IS NULL 
+            ORDER BY pcd.fecha_hora DESC");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        }catch(PDOException $e){
+            Logger::error("Error al obtener mezcla en proceso: {mensaje}", ['mensaje' => $e->getMessage()]);
+            return [];
+        }
+    }
+
+    function obtenerMezclaById(int $id) : array {
+        try{
+            $stmt = $this->db->prepare("SELECT pro_id 
+            FROM zn_procesos_agrupados_detalle 
+            WHERE proceso_agrupado_id = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        }catch(PDOException $e){
+            Logger::error("Error al obtener mezcla por ID: {mensaje}", ['mensaje' => $e->getMessage()]);
             return [];
         }
     }
