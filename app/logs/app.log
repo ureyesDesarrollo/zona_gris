@@ -29,3 +29,4 @@
 [2025-09-05 11:33:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
 [2025-09-05 11:38:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
 [2025-09-05 11:43:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 14:24:51] [ERROR] Error de conexión: SQLSTATE[28000]: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Login failed for user 'sa'.

@@ -25,10 +25,7 @@ class ComposerStaticInit6b75dda7b53f8dca4bdb52f199a5a291
         ),
         'M' => 
         array (
-            'Modules\\ZonaGris\\' => 17,
-            'Modules\\Auth\\' => 13,
-            'Modules\\Alertas\\Teams\\' => 22,
-            'Modules\\Alertas\\' => 16,
+            'Modules\\' => 8,
         ),
         'G' => 
         array (
@@ -61,21 +58,9 @@ class ComposerStaticInit6b75dda7b53f8dca4bdb52f199a5a291
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
-        'Modules\\ZonaGris\\' => 
+        'Modules\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Modules/ZonaGris',
-        ),
-        'Modules\\Auth\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/Modules/Auth',
-        ),
-        'Modules\\Alertas\\Teams\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/Modules/Alertas/Teams',
-        ),
-        'Modules\\Alertas\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/Modules/Alertas',
+            0 => __DIR__ . '/../..' . '/Modules',
         ),
         'GrahamCampbell\\ResultType\\' => 
         array (

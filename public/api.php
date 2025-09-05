@@ -1,12 +1,25 @@
 <?php
-date_default_timezone_set('America/Mazatlan');
-use Dotenv\Dotenv;
+//public/api.php
 
+// Zona horaria
+date_default_timezone_set('America/Mazatlan');
+
+// Carga el autoload de Composer
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+// Carga las variables de entorno (.env)
+use Dotenv\Dotenv;
 
-$router = new \App\Router();
-require_once __DIR__ . '/../routes/api.php';
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->safeLoad(); // Evita error si .env no existe aún
+
+// Inicializa el router (con espacio de nombres)
+use App\Router;
+
+$router = new Router();
+
+// Carga las rutas
+require_once dirname(__DIR__) . '/routes/api.php';
+
+// Ejecuta el despacho
 $router->dispatch();
