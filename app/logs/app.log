@@ -1,30 +1,31 @@
-[2025-08-26 15:47:32] [INFO] Enviando alerta a Teams 🚨 Enviado desde El sistema con endpoint de php
-[2025-08-26 15:47:32] [INFO] Enviando alerta a Teams 2025-08-26 10:45, 🚨 Enviado desde El sistema con endpoint de php, Array
-[2025-08-26 15:48:20] [INFO] Enviando alerta a Teams 🚨 Enviado desde El sistema con endpoint de php
-[2025-08-26 15:48:20] [INFO] Enviando alerta a Teams 2025-08-26 10:45, 🚨 Enviado desde El sistema con endpoint de php, Array
-[2025-08-26 16:12:22] [INFO] Enviando alerta a Teams 🚨 Enviado desde El sistema con endpoint de php
-[2025-08-26 16:12:22] [INFO] Enviando alerta a Teams 2025-08-26 10:45, 🚨 Enviado desde El sistema con endpoint de php, Array
-[2025-08-26 16:13:39] [INFO] Enviando alerta a Teams 🚨 Enviado desde El sistema con endpoint de php
-[2025-08-26 16:13:39] [INFO] Enviando alerta a Teams 2025-08-26 10:45, 🚨 Enviado desde El sistema con endpoint de php, Array
-[2025-08-26 16:16:55] [INFO] Combinación de procesos creada en múltiples cocedores
-[2025-08-26 16:39:15] [INFO] Validando consecutividad para relación 13 con fecha 2025-08-26 16:39:00
-[2025-08-26 16:39:15] [INFO] Registro horario insertado
-[2025-08-26 16:41:56] [INFO] Validando consecutividad para relación 14 con fecha 2025-08-26 16:41:00
-[2025-08-26 16:41:56] [INFO] Registro horario insertado
-[2025-08-26 16:44:55] [INFO] Validando consecutividad para relación 15 con fecha 2025-08-26 16:44:00
-[2025-08-26 16:44:55] [INFO] Enviando alerta a Teams 🚨 Enviado desde el sistema con endpoint PHP
-[2025-08-26 16:44:55] [INFO] Enviando alerta a Teams 2025-08-26 16:44:55, 🚨 Enviado desde el sistema con endpoint PHP, Array
-[2025-08-26 16:44:55] [INFO] Registro horario insertado
-[2025-08-26 16:49:03] [INFO] Enviando alerta a Teams 🚨 Parámetros fuera de rango
-[2025-08-26 16:49:03] [INFO] Enviando alerta a Teams 2025-08-26 16:49:03, 🚨 Parámetros fuera de rango, Array
-[2025-08-26 16:49:03] [INFO] Validando consecutividad para relación 16 con fecha 2025-08-26 16:49:00
-[2025-08-26 16:49:03] [INFO] Registro horario insertado
-[2025-08-26 16:50:01] [INFO] Combinación de procesos creada en múltiples cocedores
-[2025-08-26 16:50:50] [INFO] Enviando alerta a Teams 🚨 Parámetros fuera de rango
-[2025-08-26 16:50:50] [INFO] Enviando alerta a Teams 2025-08-26 16:50:50, 🚨 Parámetros fuera de rango, Array
-[2025-08-26 16:50:50] [INFO] Validando consecutividad para relación 1 con fecha 2025-08-26 16:50:00
-[2025-08-26 16:50:50] [INFO] Registro horario insertado
-[2025-08-26 17:00:40] [INFO] Enviando alerta a Teams 🚨 Parámetros fuera o cerca del rango permitido
-[2025-08-26 17:00:40] [INFO] Enviando alerta a Teams 2025-08-26 17:00:40, 🚨 Parámetros fuera o cerca del rango permitido, Array
-[2025-08-26 17:00:40] [INFO] Validando consecutividad para relación 2 con fecha 2025-08-26 17:00:00
-[2025-08-26 17:00:40] [INFO] Registro horario insertado
+[2025-09-04 11:56:21] [ERROR] Error de conexión: SQLSTATE[08001]: [Microsoft][ODBC Driver 17 for SQL Server]Named Pipes Provider: Could not open a connection to SQL Server [64]. 
+[2025-09-04 11:57:56] [ERROR] Error de conexión: SQLSTATE[08001]: [Microsoft][ODBC Driver 17 for SQL Server]Named Pipes Provider: Could not open a connection to SQL Server [64]. 
+[2025-09-04 11:58:09] [INFO] Verificando validaciones pendientes
+[2025-09-04 11:58:09] [INFO] Verificando validaciones pendientes 53.083333333333
+[2025-09-04 12:01:38] [ERROR] Error de conexión: SQLSTATE[08001]: [Microsoft][ODBC Driver 17 for SQL Server]Named Pipes Provider: Could not open a connection to SQL Server [1326]. 
+[2025-09-05 09:53:09] [ERROR] Error de conexión: SQLSTATE[HY000] [1049] Unknown database 'bd_sis_preparacion'
+[2025-09-05 09:56:54] [ERROR] Error al obtener estado de cocedores: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.cocedores' doesn't exist
+[2025-09-05 09:58:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:01:54] [ERROR] Error al obtener estado de cocedores: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.cocedores' doesn't exist
+[2025-09-05 10:03:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:06:54] [ERROR] Error al obtener estado de cocedores: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.cocedores' doesn't exist
+[2025-09-05 10:08:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:13:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:18:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:23:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:28:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:33:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:38:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:43:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:48:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:53:11] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 10:58:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 11:03:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 11:08:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 11:13:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 11:18:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 11:23:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 11:28:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 11:33:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 11:38:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
+[2025-09-05 11:43:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist

@@ -2,6 +2,7 @@
 
 namespace Modules\ZonaGris\Funciones\Cocedores;
 
+use App\Database;
 use PDO;
 use PDOException;
 use App\Helpers\Logger;
@@ -248,7 +249,7 @@ class Cocedores
             $anterior = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // 2. Validar si falta validación del supervisor
-            if ($anterior && empty($anterior['supervisor_validado'])) {
+            if (empty($anterior['supervisor_validado'])) {
                 return [
                     'success' => false,
                     'error' => 'No puedes guardar la nueva hora: la anterior (' . $anterior['fecha_hora'] . ') aún no ha sido validada por el supervisor.'
@@ -260,11 +261,11 @@ class Cocedores
             INSERT INTO procesos_cocedores_detalle (
                 relacion_id, fecha_hora, usuario_id, responsable_tipo, tipo_registro,
                 param_agua, param_temp_entrada, param_temp_salida, param_solidos, param_ph,
-                param_ntu, peso_consumido, muestra_tomada, observaciones, agitacion, desengrasador
+                param_ntu,muestra_tomada, observaciones, agitacion, desengrasador
             ) VALUES (
                 :relacion_id, :fecha_hora, :usuario_id, :responsable_tipo, :tipo_registro,
                 :param_agua, :param_temp_entrada, :param_temp_salida, :param_solidos, :param_ph,
-                :param_ntu, :peso_consumido, :muestra_tomada, :observaciones, :agitacion, :desengrasador
+                :param_ntu, :muestra_tomada, :observaciones, :agitacion, :desengrasador
             )
         ");
             // ... binds ...
@@ -279,7 +280,6 @@ class Cocedores
             $stmt->bindParam(':param_solidos',       $data['param_solidos']);
             $stmt->bindParam(':param_ph',            $data['param_ph']);
             $stmt->bindParam(':param_ntu',           $data['param_ntu']);
-            $stmt->bindParam(':peso_consumido',      $data['peso_consumido']);
             $stmt->bindParam(':muestra_tomada',      $data['muestra_tomada'], PDO::PARAM_BOOL);
             $stmt->bindParam(':observaciones',       $data['observaciones']);
             $stmt->bindParam(':agitacion',           $data['agitacion']);
@@ -354,9 +354,11 @@ class Cocedores
             $stmt = $this->db->prepare("UPDATE procesos_cocedores_detalle SET 
             supervisor_validado = '1',
             supervisor_id = :id,
+            supervisor_observaciones = :observaciones,
             fecha_validacion = :fecha_validacion WHERE detalle_id = :detalle_id");
             $stmt->bindParam(":id", $data['id'], PDO::PARAM_INT);
             $stmt->bindParam(":detalle_id", $data['detalle_id'], PDO::PARAM_INT);
+            $stmt->bindParam(":observaciones", $data['observaciones'], PDO::PARAM_STR);
             $fecha = date('Y-m-d H:i:s');
             $stmt->bindParam(":fecha_validacion",  $fecha);
             $stmt->execute();
@@ -504,8 +506,9 @@ class Cocedores
         }
     }
 
-    function obtenerMezclaEnProceso() : array {
-        try{
+    function obtenerMezclaEnProceso(): array
+    {
+        try {
             $stmt = $this->db->query("SELECT proceso_agrupado_id, supervisor_validado 
             FROM procesos_cocedores_relacion pcr 
             INNER JOIN procesos_cocedores_detalle pcd 
@@ -513,23 +516,64 @@ class Cocedores
             WHERE pcr.fecha_fin IS NULL 
             ORDER BY pcd.fecha_hora DESC");
             return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             Logger::error("Error al obtener mezcla en proceso: {mensaje}", ['mensaje' => $e->getMessage()]);
             return [];
         }
     }
 
-    function obtenerMezclaById(int $id) : array {
-        try{
+    function obtenerMezclaById(int $id): array
+    {
+        try {
             $stmt = $this->db->prepare("SELECT pro_id 
             FROM zn_procesos_agrupados_detalle 
             WHERE proceso_agrupado_id = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             Logger::error("Error al obtener mezcla por ID: {mensaje}", ['mensaje' => $e->getMessage()]);
             return [];
         }
+    }
+
+
+
+    // Para alertas
+
+    public static function obtenerRegistrosSinValidar(): array
+    {
+        try {
+            $db = Database::getInstance()->getConnection();
+            $sql = "SELECT pcd.detalle_id, pcd.fecha_hora, pcd.alerta_15_enviada, pcd.alerta_30_enviada, c.cocedor_id
+                FROM procesos_cocedores_detalle pcd
+                INNER JOIN procesos_cocedores_relacion pcr
+                ON pcd.relacion_id = pcr.relacion_id
+                INNER JOIN cocedores c
+                ON pcr.cocedor_id = c.cocedor_id
+                WHERE pcr.fecha_fin IS NULL 
+                  AND pcd.supervisor_validado = 0 
+                  AND pcd.fecha_hora >= NOW() - INTERVAL 1 HOUR";
+            $stmt = $db->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        } catch (PDOException $e) {
+            Logger::error("Error al obtener registros sin validar: {mensaje}", ['mensaje' => $e->getMessage()]);
+            return [];
+        }
+    }
+
+    public static function marcarAlerta(int $id, string $campo)
+    {
+        $db = Database::getInstance()->getConnection();
+
+        if (!in_array($campo, ['alerta_15_enviada', 'alerta_30_enviada'])) return;
+
+        $sql = "UPDATE procesos_cocedores_detalle
+                SET {$campo} = 1
+                WHERE detalle_id = :id";
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
     }
 }

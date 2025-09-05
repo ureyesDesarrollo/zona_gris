@@ -79,7 +79,7 @@ class CocedoresController extends BaseController
     {
         $data = Request::input();
 
-        $validacion = $this->CocedoresModel->validarConsecutividadHora($data['relacion_id'], $data['fecha_hora']);
+       /*  $validacion = $this->CocedoresModel->validarConsecutividadHora($data['relacion_id'], $data['fecha_hora']);
         if (!$validacion['ok']) {
             $this->json([
                 'success' => false,
@@ -88,7 +88,7 @@ class CocedoresController extends BaseController
                 'last_hora' => $validacion['last_hora']
             ], 400);
             return;
-        }
+        } */
 
         $validator = new Validator($data);
         $validator->required([
@@ -103,7 +103,6 @@ class CocedoresController extends BaseController
             'param_solidos',
             'param_ph',
             'param_ntu',
-            'peso_consumido',
             'muestra_tomada',
             'observaciones',
             'agitacion',

@@ -1,0 +1,213 @@
+Listado de rutas de carpetas
+El número de serie del volumen es 0C51-D3DC
+C:.
+|   .env
+|   composer.json
+|   composer.lock
+|   proyecto.bat
+|   proyecto.txt
+|   README.md
+|   reportecocedorconsulta.sql
+|   
++---app
+|   |   BaseController.php
+|   |   Database.php
+|   |   Router.php
+|   |   
+|   +---Helpers
+|   |       Logger.php
+|   |       Request.php
+|   |       Response.php
+|   |       Validator.php
+|   |       
+|   \---logs
+|           app.log
+|           
++---Modules
+|   +---Alertas
+|   |   |   AlertasController.php
+|   |   |   
+|   |   +---Jobs
+|   |   |       AlertasValidacion.php
+|   |   |       
+|   |   \---Teams
+|   |           CrearAdaptiveCard.php
+|   |           EnviarAlertaTeams.php
+|   |           
+|   +---Auth
+|   |       AuthController.php
+|   |       PerfilController.php
+|   |       User.php
+|   |       
+|   \---ZonaGris
+|       +---Catalogos
+|       |   \---Cocedores
+|       |           CatalogoCocedores.php
+|       |           CatalogoCocedoresController.php
+|       |           
+|       +---Funciones
+|       |   \---Cocedores
+|       |           Cocedores.php
+|       |           CocedoresController.php
+|       |           CocedoresPlc.php
+|       |           
+|       \---Reportes
+|           \---Cocedores
+|                   CocedoresReportes.php
+|                   CocedoresReportesController.php
+|                   
++---public
+|       api.php
+|       run_alertas.php
+|       
++---routes
+|       .htaccess
+|       alertas.php
+|       api.php
+|       auth.php
+|       cocedores.php
+|       perfil.php
+|       
+\---vendor
+    |   autoload.php
+    |   
+    +---composer
+    |       autoload_classmap.php
+    |       autoload_files.php
+    |       autoload_namespaces.php
+    |       autoload_psr4.php
+    |       autoload_real.php
+    |       autoload_static.php
+    |       ClassLoader.php
+    |       installed.json
+    |       installed.php
+    |       InstalledVersions.php
+    |       LICENSE
+    |       platform_check.php
+    |       
+    +---graham-campbell
+    |   \---result-type
+    |       |   composer.json
+    |       |   LICENSE
+    |       |   
+    |       \---src
+    |               Error.php
+    |               Result.php
+    |               Success.php
+    |               
+    +---phpoption
+    |   \---phpoption
+    |       |   composer.json
+    |       |   LICENSE
+    |       |   
+    |       \---src
+    |           \---PhpOption
+    |                   LazyOption.php
+    |                   None.php
+    |                   Option.php
+    |                   Some.php
+    |                   
+    +---symfony
+    |   +---polyfill-ctype
+    |   |       bootstrap.php
+    |   |       bootstrap80.php
+    |   |       composer.json
+    |   |       Ctype.php
+    |   |       LICENSE
+    |   |       README.md
+    |   |       
+    |   +---polyfill-mbstring
+    |   |   |   bootstrap.php
+    |   |   |   bootstrap80.php
+    |   |   |   composer.json
+    |   |   |   LICENSE
+    |   |   |   Mbstring.php
+    |   |   |   README.md
+    |   |   |   
+    |   |   \---Resources
+    |   |       \---unidata
+    |   |               caseFolding.php
+    |   |               lowerCase.php
+    |   |               titleCaseRegexp.php
+    |   |               upperCase.php
+    |   |               
+    |   \---polyfill-php80
+    |       |   bootstrap.php
+    |       |   composer.json
+    |       |   LICENSE
+    |       |   Php80.php
+    |       |   PhpToken.php
+    |       |   README.md
+    |       |   
+    |       \---Resources
+    |           \---stubs
+    |                   Attribute.php
+    |                   PhpToken.php
+    |                   Stringable.php
+    |                   UnhandledMatchError.php
+    |                   ValueError.php
+    |                   
+    \---vlucas
+        \---phpdotenv
+            |   composer.json
+            |   LICENSE
+            |   
+            \---src
+                |   Dotenv.php
+                |   Validator.php
+                |   
+                +---Exception
+                |       ExceptionInterface.php
+                |       InvalidEncodingException.php
+                |       InvalidFileException.php
+                |       InvalidPathException.php
+                |       ValidationException.php
+                |       
+                +---Loader
+                |       Loader.php
+                |       LoaderInterface.php
+                |       Resolver.php
+                |       
+                +---Parser
+                |       Entry.php
+                |       EntryParser.php
+                |       Lexer.php
+                |       Lines.php
+                |       Parser.php
+                |       ParserInterface.php
+                |       Value.php
+                |       
+                +---Repository
+                |   |   AdapterRepository.php
+                |   |   RepositoryBuilder.php
+                |   |   RepositoryInterface.php
+                |   |   
+                |   \---Adapter
+                |           AdapterInterface.php
+                |           ApacheAdapter.php
+                |           ArrayAdapter.php
+                |           EnvConstAdapter.php
+                |           GuardedWriter.php
+                |           ImmutableWriter.php
+                |           MultiReader.php
+                |           MultiWriter.php
+                |           PutenvAdapter.php
+                |           ReaderInterface.php
+                |           ReplacingWriter.php
+                |           ServerConstAdapter.php
+                |           WriterInterface.php
+                |           
+                +---Store
+                |   |   FileStore.php
+                |   |   StoreBuilder.php
+                |   |   StoreInterface.php
+                |   |   StringStore.php
+                |   |   
+                |   \---File
+                |           Paths.php
+                |           Reader.php
+                |           
+                \---Util
+                        Regex.php
+                        Str.php
+                        

@@ -1,0 +1,51 @@
+<?php
+
+namespace Modules\Alertas\Jobs;
+use Modules\ZonaGris\Funciones\Cocedores\Cocedores;
+use Modules\Alertas\Teams\EnviarAlertaTeams;
+
+class AlertasValidacion {
+    public static function verificarValidacionesPendientes() {
+        $registros = Cocedores::obtenerRegistrosSinValidar();
+
+        foreach ($registros as $registro) {
+            $minutos = self::minutosDesde($registro['fecha_hora']);
+            
+            if ($minutos >= 15 && !$registro['alerta_15_enviada']) {
+                EnviarAlertaTeams::enviarAlerta([
+                    'tipo' => 'chat_user',
+                    'responsable_tipo' => 'jefe',
+                    'id' => 'desarrollo@progel.com.mx'
+                ], [
+                    'titulo' => '🚨 Validación pendiente 15 minutos',
+                    'fecha' => date('Y-m-d H:i:s')
+                ], [
+                    ['titulo' => 'Cocedor', 'valor' => $registro['cocedor_id']],
+                    ['titulo' => 'Hora registro', 'valor' => $registro['fecha_hora']]
+                ]);
+
+                Cocedores::marcarAlerta($registro['detalle_id'], 'alerta_15_enviada');
+            }
+
+            if ($minutos >= 30 && !$registro['alerta_30_enviada']) {
+                EnviarAlertaTeams::enviarAlerta([
+                    'tipo' => 'chat_user',
+                    'responsable_tipo' => 'gerencia',
+                    'id' => 'desarrollo@progel.com.mx'
+                ], [
+                    'titulo' => '🚨 Validación pendiente 30 minutos',
+                    'fecha' => date('Y-m-d H:i:s')
+                ], [
+                    ['titulo' => 'Cocedor', 'valor' => $registro['cocedor_id']],
+                    ['titulo' => 'Hora registro', 'valor' => $registro['fecha_hora']]
+                ]);
+
+                Cocedores::marcarAlerta($registro['detalle_id'], 'alerta_30_enviada');
+            }
+        }
+    }
+
+    private static function minutosDesde(string $fecha): float {
+        return (time() - strtotime($fecha)) / 60;
+    }
+}

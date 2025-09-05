@@ -14,6 +14,11 @@ class AlertasController extends BaseController {
             return $this->json(['error' => 'No se proporcionaron datos'], 400);
         }
 
+        $destino = [
+            'tipo' => 'chat_user',
+            'id' => 'desarrollo@progel.com.mx'
+        ];
+
         $datos = [
             'titulo' => $data['titulo'],
             'fecha' => $data['fecha']
@@ -23,7 +28,7 @@ class AlertasController extends BaseController {
         
         $facts = $data['facts'];
 
-        $result = EnviarAlertaTeams::enviarAlerta($datos, $facts);
+        $result = EnviarAlertaTeams::enviarAlerta($destino, $datos, $facts);
         return $this->json(['result' => $result], 200);
     }
 }

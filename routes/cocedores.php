@@ -4,10 +4,12 @@ use App\Helpers\Logger;
 use Modules\ZonaGris\Catalogos\Cocedores\CatalogoCocedoresController;
 use Modules\ZonaGris\Funciones\Cocedores\CocedoresController;
 use Modules\ZonaGris\Funciones\Cocedores\CocedoresPlc;
+use Modules\ZonaGris\Reportes\Cocedores\CocedoresReportesController;
 
 $catalogo = new CatalogoCocedoresController();
 $funciones = new CocedoresController();
 $funcionesPlc = new CocedoresPlc();
+$reportes = new CocedoresReportesController();
 
 // Listar todas
 $router->add(
@@ -204,5 +206,14 @@ $router->add(
     '/api/zonagris/funciones/cocedores/obtener-mezcla-by-id/(\d+)',
     function ($id) use ($funciones) {
         $funciones->obtenerMezclaById($id);
+    }
+);
+
+//Reporte cocedores
+$router->add(
+    'POST',
+    '/api/zonagris/reportes/cocedores',
+    function () use ($reportes) {
+        $reportes->index();
     }
 );

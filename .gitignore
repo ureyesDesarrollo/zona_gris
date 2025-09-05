@@ -1,0 +1,98 @@
+# Dependency directories
+/vendor/
+/node_modules/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+app/logs/*.log
+
+# Cache and temporary files
+/cache/
+*.cache
+.temp/
+tmp/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Development tools
+composer.phar
+composer.lock
+
+# Local configuration overrides
+config/autoload/*.local.php
+
+# Debug files
+*.sublime-workspace
+*.sublime-project
+
+# Local development overrides
+*.local.*
+
+# Testing
+/coverage/
+.phpunit.result.cache
+
+# Build directories
+/build/
+/dist/
+
+# Development server
+/public/build/
+
+# Local environment files
+.phpunit.*.cache
+
+# IDE specific
+.idea/
+*.sublime-*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Development environment
+.env.development
+.env.testing
+.env.production
+
+# PHPUnit
+/phpunit.xml
+
+# IDE
+.idea/
+*.sublime-*
+
+# Local environment files (various frameworks)
+.env.local
+.env.*.local
+
+# Composer
+composer.phar
+composer.lock
+
+# Local development overrides
+*.local.*
+
+# Debug files
+*.log
+*.swp
+*.swo
+
+# Build files
+/build/
+/dist/
