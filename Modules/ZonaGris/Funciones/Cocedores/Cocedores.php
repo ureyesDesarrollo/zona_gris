@@ -249,12 +249,12 @@ class Cocedores
             $anterior = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // 2. Validar si falta validación del supervisor
-            if (empty($anterior['supervisor_validado'])) {
+            /* if (empty($anterior['supervisor_validado'])) {
                 return [
                     'success' => false,
                     'error' => 'No puedes guardar la nueva hora: la anterior (' . $anterior['fecha_hora'] . ') aún no ha sido validada por el supervisor.'
                 ];
-            }
+            } */
 
             // 3. (continúa el insert normal)
             $stmt = $this->db->prepare("
@@ -348,7 +348,7 @@ class Cocedores
         return ['ok' => true];
     }
 
-    public function validadarSupervisor(array $data): bool
+    public function validarSupervisor(array $data): bool
     {
         try {
             $stmt = $this->db->prepare("UPDATE procesos_cocedores_detalle SET 

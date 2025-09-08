@@ -3,14 +3,16 @@
 namespace Modules\Alertas\Jobs;
 use Modules\ZonaGris\Funciones\Cocedores\Cocedores;
 use Modules\Alertas\Teams\EnviarAlertaTeams;
+use App\Helpers\Logger;
 
 class AlertasValidacion {
     public static function verificarValidacionesPendientes() {
+        Logger::info('Verificando validaciones pendientes');
         $registros = Cocedores::obtenerRegistrosSinValidar();
-
+        Logger::info("Registros sin validar: {count}", ['count' => count($registros)]);
         foreach ($registros as $registro) {
             $minutos = self::minutosDesde($registro['fecha_hora']);
-            
+            Logger::info("Verificando validación: {minutos} minutos", ['minutos' => $minutos]);
             if ($minutos >= 15 && !$registro['alerta_15_enviada']) {
                 EnviarAlertaTeams::enviarAlerta([
                     'tipo' => 'chat_user',

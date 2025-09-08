@@ -146,7 +146,7 @@ class CocedoresController extends BaseController
         }
 
         try {
-            $ok = $this->CocedoresModel->validadarSupervisor($data);
+            $ok = $this->CocedoresModel->validarSupervisor($data);
             $this->json(['success' => $ok, 'msg' => $ok ? 'Registro validado' : 'No validado']);
         } catch (\Exception $e) {
             $this->json(['success' => false, 'error' => $e->getMessage()], 500);

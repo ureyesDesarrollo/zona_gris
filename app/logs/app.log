@@ -1,32 +1,12 @@
-[2025-09-04 11:56:21] [ERROR] Error de conexión: SQLSTATE[08001]: [Microsoft][ODBC Driver 17 for SQL Server]Named Pipes Provider: Could not open a connection to SQL Server [64]. 
-[2025-09-04 11:57:56] [ERROR] Error de conexión: SQLSTATE[08001]: [Microsoft][ODBC Driver 17 for SQL Server]Named Pipes Provider: Could not open a connection to SQL Server [64]. 
-[2025-09-04 11:58:09] [INFO] Verificando validaciones pendientes
-[2025-09-04 11:58:09] [INFO] Verificando validaciones pendientes 53.083333333333
-[2025-09-04 12:01:38] [ERROR] Error de conexión: SQLSTATE[08001]: [Microsoft][ODBC Driver 17 for SQL Server]Named Pipes Provider: Could not open a connection to SQL Server [1326]. 
-[2025-09-05 09:53:09] [ERROR] Error de conexión: SQLSTATE[HY000] [1049] Unknown database 'bd_sis_preparacion'
-[2025-09-05 09:56:54] [ERROR] Error al obtener estado de cocedores: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.cocedores' doesn't exist
-[2025-09-05 09:58:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:01:54] [ERROR] Error al obtener estado de cocedores: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.cocedores' doesn't exist
-[2025-09-05 10:03:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:06:54] [ERROR] Error al obtener estado de cocedores: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.cocedores' doesn't exist
-[2025-09-05 10:08:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:13:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:18:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:23:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:28:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:33:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:38:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:43:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:48:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:53:11] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 10:58:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 11:03:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 11:08:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 11:13:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 11:18:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 11:23:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 11:28:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 11:33:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 11:38:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 11:43:09] [ERROR] Error al obtener registros sin validar: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_sis_preparacion.procesos_cocedores_detalle' doesn't exist
-[2025-09-05 14:24:51] [ERROR] Error de conexión: SQLSTATE[28000]: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Login failed for user 'sa'.
+
+[2025-09-08 15:28:09] [INFO] Verificando validaciones pendientes
+[2025-09-08 15:28:09] [INFO] Registros sin validar: 1
+[2025-09-08 15:28:09] [INFO] Verificando validación: 6.15 minutos
+[2025-09-08 15:33:09] [INFO] Verificando validaciones pendientes
+[2025-09-08 15:33:09] [INFO] Registros sin validar: 1
+[2025-09-08 15:33:09] [INFO] Verificando validación: 11.15 minutos
+[2025-09-08 15:38:09] [INFO] Verificando validaciones pendientes
+[2025-09-08 15:38:09] [INFO] Registros sin validar: 1
+[2025-09-08 15:38:09] [INFO] Verificando validación: 16.15 minutos
+[2025-09-08 15:38:09] [INFO] 🚀 Enviando alerta a Teams, {"destino":{"tipo":"chat_user","responsable_tipo":"jefe","id":"desarrollo@progel.com.mx"},"mensaje":{"type":"AdaptiveCard","version":"1.4","body":[{"type":"TextBlock","text":"🚨 Validación pendiente 15 minutos","weight":"bolder","size":"large","color":"attention","wrap":true},{"type":"TextBlock","text":"📅 Fecha de alerta: 2025-09-08 15:38:09","wrap":true,"spacing":"Medium"},{"type":"FactSet","facts":[{"title":"Cocedor","value":"2"}],"spacing":"Small"},{"type":"FactSet","facts":[{"title":"Hora registro","value":"2025-09-08 15:22:00"}],"spacing":"Small"}],"msteams":{"width":"Full"}}}
+[2025-09-08 15:38:10] [INFO] Alerta enviada correctamente
