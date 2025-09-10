@@ -304,7 +304,6 @@ class Cocedores
         }
     }
 
-
     /**
      * Valida que el registro horario sea consecutivo (no hay huecos mayores a 1 hora) en la relación cocedor-proceso.
      * 
@@ -387,7 +386,8 @@ class Cocedores
     {
         try {
             $fecha = date('Y-m-d H:i:s');
-            $stmt = $this->db->prepare("INSERT INTO paros_cocedores (cocedor_id, fecha_inicio, usuario_id, motivo) 
+            $stmt = $this->db->prepare("INSERT INTO paros_cocedores 
+            (cocedor_id, fecha_inicio, usuario_id, motivo) 
             VALUES (:cocedor_id, :fecha_inicio, :usuario_id, :motivo)");
             $stmt->bindParam(":cocedor_id", $data['cocedor_id'], PDO::PARAM_INT);
             $stmt->bindParam(":fecha_inicio", $fecha, PDO::PARAM_STR);
