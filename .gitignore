@@ -96,3 +96,6 @@ composer.lock
 # Build files
 /build/
 /dist/
+
+# Logs
+/app/logs/*.log
