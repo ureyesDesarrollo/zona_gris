@@ -1,5 +1,6 @@
 <?php
 
+namespace Modules\ZonaGris\Catalogos\Clarificador;
 use App\Helpers\Logger;
 use PDO;
 use PDOException;
@@ -40,15 +41,15 @@ class CatalogoClarificador
         }
     }
 
-    public function changeStatus(int $id, string $estatus): bool {
+    public function changeStatus(array $data): bool {
         try {
             $estatusPermitidos = ['ACTIVO', 'INACTIVO', 'MANTENIMIENTO'];
-            if (!in_array($estatus, $estatusPermitidos)) {
+            if (!in_array($data['estatus'], $estatusPermitidos)) {
                 throw new \Exception("Estatus no permitido", 400);
             }
-            $stmt = $this->db->prepare("UPDATE clarificadores SET estatus = :estatus WHERE clarificador_id = :id");
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->bindParam(':estatus', $estatus, PDO::PARAM_STR);
+            $stmt = $this->db->prepare("UPDATE clarificadores SET clarificador_estado = :estatus WHERE clarificador_id = :id");
+            $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
+            $stmt->bindParam(':estatus', $data['estatus'], PDO::PARAM_STR);
             $stmt->execute();
             if ($stmt->rowCount() === 0) {
                 throw new \Exception("Clarificador no encontrado o sin cambios.", 404);
