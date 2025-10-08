@@ -15,7 +15,7 @@ class CatalogoClarificadorController extends BaseController
         $db = Database::getInstance()->getConnection();
         $this->catalogoClarificador = new CatalogoClarificador($db);
     }
-    
+
     public function index()
     {
         $this->json($this->catalogoClarificador->all());
@@ -23,7 +23,13 @@ class CatalogoClarificadorController extends BaseController
 
     public function show($id)
     {
-        $this->json($this->catalogoClarificador->find($id));
+        $clarificador = $this->catalogoClarificador->find($id);
+
+        if (empty($clarificador)) {
+            return $this->json(['error' => 'Clarificador no encontrado'], 404);
+        }
+
+        return $this->json($clarificador, 200);
     }
 
     public function changeStatus()
