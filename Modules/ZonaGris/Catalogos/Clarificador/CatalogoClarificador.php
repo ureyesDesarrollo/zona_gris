@@ -31,10 +31,7 @@ class CatalogoClarificador
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (!$result) {
-                throw new \Exception("Clarificador no encontrado.", 404);
-            }
-            return $result;
+            return $result ?: [];
         } catch (PDOException $e) {
             Logger::error("Error al obtener clarificador {id}: {mensaje}", ['id' => $id, 'mensaje' => $e->getMessage()]);
             throw new \Exception("Error en la base de datos al buscar el clarificador.", 500);

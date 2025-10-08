@@ -9,11 +9,12 @@ use App\Helpers\Request;
 class AlertasController extends BaseController {
     public function enviarAlerta() {
         $data = Request::input();
-        Logger::info('Enviando alerta a Teams {datos}', ['datos' => $data['titulo']]);
         if (empty($data)) {
             return $this->json(['error' => 'No se proporcionaron datos'], 400);
         }
-
+        
+        Logger::info('Enviando alerta a Teams {datos}', ['datos' => $data['titulo']]);
+        
         $destino = [
             'tipo' => 'chat_user',
             'id' => 'desarrollo@progel.com.mx'

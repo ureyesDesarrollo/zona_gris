@@ -2,6 +2,7 @@ Listado de rutas de carpetas
 El número de serie del volumen es 0C51-D3DC
 C:.
 |   .env
+|   .gitignore
 |   composer.json
 |   composer.lock
 |   proyecto.bat
@@ -9,6 +10,9 @@ C:.
 |   README.md
 |   reportecocedorconsulta.sql
 |   
++---.vscode
+|       settings.json
+|       
 +---app
 |   |   BaseController.php
 |   |   Database.php
@@ -41,6 +45,10 @@ C:.
 |   |       
 |   \---ZonaGris
 |       +---Catalogos
+|       |   +---Clarificador
+|       |   |       CatalogoClarificador.php
+|       |   |       CatalogoClarificadorController.php
+|       |   |       
 |       |   \---Cocedores
 |       |           CatalogoCocedores.php
 |       |           CatalogoCocedoresController.php
@@ -65,6 +73,7 @@ C:.
 |       alertas.php
 |       api.php
 |       auth.php
+|       clarificador.php
 |       cocedores.php
 |       perfil.php
 |       
@@ -95,6 +104,703 @@ C:.
     |               Result.php
     |               Success.php
     |               
+    +---mpdf
+    |   +---mpdf
+    |   |   |   .gitignore
+    |   |   |   CHANGELOG.md
+    |   |   |   composer.json
+    |   |   |   CREDITS.txt
+    |   |   |   LICENSE.txt
+    |   |   |   phpstan-baseline.neon
+    |   |   |   phpstan.neon
+    |   |   |   phpunit.xml
+    |   |   |   README.md
+    |   |   |   ruleset.xml
+    |   |   |   
+    |   |   +---.github
+    |   |   |   |   CONTRIBUTING.md
+    |   |   |   |   FUNDING.yml
+    |   |   |   |   SECURITY.md
+    |   |   |   |   
+    |   |   |   +---ISSUE_TEMPLATE
+    |   |   |   |       01_bug_report.yml
+    |   |   |   |       02_feature_request.yml
+    |   |   |   |       config.yml
+    |   |   |   |       
+    |   |   |   \---workflows
+    |   |   |           coverage.yml
+    |   |   |           cs.yml
+    |   |   |           static-analysis.yml
+    |   |   |           tests.yml
+    |   |   |           
+    |   |   +---data
+    |   |   |   |   CJKdata.php
+    |   |   |   |   entity_substitutions.php
+    |   |   |   |   lang2fonts.css
+    |   |   |   |   linebrdictK.dat
+    |   |   |   |   linebrdictL.dat
+    |   |   |   |   linebrdictT.dat
+    |   |   |   |   mpdf.css
+    |   |   |   |   no_image.jpg
+    |   |   |   |   out.php
+    |   |   |   |   subs_core.php
+    |   |   |   |   subs_win-1252.php
+    |   |   |   |   upperCase.php
+    |   |   |   |   
+    |   |   |   +---collations
+    |   |   |   |       Afrikaans_South_Africa.php
+    |   |   |   |       Albanian_Albania.php
+    |   |   |   |       Alsatian_France.php
+    |   |   |   |       Arabic_Algeria.php
+    |   |   |   |       Arabic_Bahrain.php
+    |   |   |   |       Arabic_Egypt.php
+    |   |   |   |       Arabic_Iraq.php
+    |   |   |   |       Arabic_Jordan.php
+    |   |   |   |       Arabic_Kuwait.php
+    |   |   |   |       Arabic_Lebanon.php
+    |   |   |   |       Arabic_Libya.php
+    |   |   |   |       Arabic_Morocco.php
+    |   |   |   |       Arabic_Oman.php
+    |   |   |   |       Arabic_Pseudo_RTL.php
+    |   |   |   |       Arabic_Qatar.php
+    |   |   |   |       Arabic_Saudi_Arabia.php
+    |   |   |   |       Arabic_Syria.php
+    |   |   |   |       Arabic_Tunisia.php
+    |   |   |   |       Arabic_Yemen.php
+    |   |   |   |       Azeri_(Cyrillic)_Azerbaijan.php
+    |   |   |   |       Azeri_(Latin)_Azerbaijan.php
+    |   |   |   |       Bashkir_Russia.php
+    |   |   |   |       Basque_Spain.php
+    |   |   |   |       Belarusian_Belarus.php
+    |   |   |   |       Bosnian_(Cyrillic)_Bosnia_and_Herzegovina.php
+    |   |   |   |       Bosnian_(Latin)_Bosnia_and_Herzegovina.php
+    |   |   |   |       Breton_France.php
+    |   |   |   |       Bulgarian_Bulgaria.php
+    |   |   |   |       Catalan_Spain.php
+    |   |   |   |       Corsican_France.php
+    |   |   |   |       Croatian_(Latin)_Bosnia_and_Herzegovina.php
+    |   |   |   |       Croatian_Croatia.php
+    |   |   |   |       Czech_Czech_Republic.php
+    |   |   |   |       Danish_Denmark.php
+    |   |   |   |       Dari_Afghanistan.php
+    |   |   |   |       Dutch_Belgium.php
+    |   |   |   |       Dutch_Netherlands.php
+    |   |   |   |       English_Australia.php
+    |   |   |   |       English_Belize.php
+    |   |   |   |       English_Canada.php
+    |   |   |   |       English_Caribbean.php
+    |   |   |   |       English_India.php
+    |   |   |   |       English_Ireland.php
+    |   |   |   |       English_Jamaica.php
+    |   |   |   |       English_Malaysia.php
+    |   |   |   |       English_New_Zealand.php
+    |   |   |   |       English_Republic_of_the_Philippines.php
+    |   |   |   |       English_Singapore.php
+    |   |   |   |       English_South_Africa.php
+    |   |   |   |       English_Trinidad_and_Tobago.php
+    |   |   |   |       English_United_Kingdom.php
+    |   |   |   |       English_United_States.php
+    |   |   |   |       English_Zimbabwe.php
+    |   |   |   |       Estonian_Estonia.php
+    |   |   |   |       Faroese_Faroe_Islands.php
+    |   |   |   |       Filipino_Philippines.php
+    |   |   |   |       Finnish_Finland.php
+    |   |   |   |       French_Belgium.php
+    |   |   |   |       French_Canada.php
+    |   |   |   |       French_France.php
+    |   |   |   |       French_Luxembourg.php
+    |   |   |   |       French_Principality_of_Monaco.php
+    |   |   |   |       French_Switzerland.php
+    |   |   |   |       Frisian_Netherlands.php
+    |   |   |   |       Galician_Spain.php
+    |   |   |   |       German_Austria.php
+    |   |   |   |       German_Germany.php
+    |   |   |   |       German_Liechtenstein.php
+    |   |   |   |       German_Luxembourg.php
+    |   |   |   |       German_Switzerland.php
+    |   |   |   |       Greek_Greece.php
+    |   |   |   |       Greenlandic_Greenland.php
+    |   |   |   |       Hausa_(Latin)_Nigeria.php
+    |   |   |   |       Hebrew_Israel.php
+    |   |   |   |       Hungarian_Hungary.php
+    |   |   |   |       Icelandic_Iceland.php
+    |   |   |   |       Igbo_Nigeria.php
+    |   |   |   |       Indonesian_Indonesia.php
+    |   |   |   |       Inuktitut_(Latin)_Canada.php
+    |   |   |   |       Invariant_Language_Invariant_Country.php
+    |   |   |   |       Irish_Ireland.php
+    |   |   |   |       isiXhosa_South_Africa.php
+    |   |   |   |       isiZulu_South_Africa.php
+    |   |   |   |       Italian_Italy.php
+    |   |   |   |       Italian_Switzerland.php
+    |   |   |   |       Kinyarwanda_Rwanda.php
+    |   |   |   |       Kiswahili_Kenya.php
+    |   |   |   |       Kyrgyz_Kyrgyzstan.php
+    |   |   |   |       Latvian_Latvia.php
+    |   |   |   |       Lithuanian_Lithuania.php
+    |   |   |   |       Lower_Sorbian_Germany.php
+    |   |   |   |       Luxembourgish_Luxembourg.php
+    |   |   |   |       Macedonian_(FYROM)_Macedonia_(FYROM).php
+    |   |   |   |       Malay_Brunei_Darussalam.php
+    |   |   |   |       Malay_Malaysia.php
+    |   |   |   |       Mapudungun_Chile.php
+    |   |   |   |       Mohawk_Canada.php
+    |   |   |   |       Mongolian_(Cyrillic)_Mongolia.php
+    |   |   |   |       Norwegian_(Nynorsk)_Norway.php
+    |   |   |   |       Occitan_France.php
+    |   |   |   |       Persian_Iran.php
+    |   |   |   |       Polish_Poland.php
+    |   |   |   |       Portuguese_Brazil.php
+    |   |   |   |       Portuguese_Portugal.php
+    |   |   |   |       Quechua_Bolivia.php
+    |   |   |   |       Quechua_Ecuador.php
+    |   |   |   |       Quechua_Peru.php
+    |   |   |   |       Romanian_Romania.php
+    |   |   |   |       Romansh_Switzerland.php
+    |   |   |   |       Russian_Russia.php
+    |   |   |   |       Sami_(Inari)_Finland.php
+    |   |   |   |       Sami_(Lule)_Norway.php
+    |   |   |   |       Sami_(Lule)_Sweden.php
+    |   |   |   |       Sami_(Northern)_Finland.php
+    |   |   |   |       Sami_(Northern)_Norway.php
+    |   |   |   |       Sami_(Northern)_Sweden.php
+    |   |   |   |       Sami_(Skolt)_Finland.php
+    |   |   |   |       Sami_(Southern)_Norway.php
+    |   |   |   |       Sami_(Southern)_Sweden.php
+    |   |   |   |       Serbian_(Cyrillic)_Bosnia_and_Herzegovina.php
+    |   |   |   |       Serbian_(Cyrillic)_Serbia.php
+    |   |   |   |       Serbian_(Latin)_Bosnia_and_Herzegovina.php
+    |   |   |   |       Serbian_(Latin)_Serbia.php
+    |   |   |   |       Sesotho_sa_Leboa_South_Africa.php
+    |   |   |   |       Setswana_South_Africa.php
+    |   |   |   |       Slovak_Slovakia.php
+    |   |   |   |       Slovenian_Slovenia.php
+    |   |   |   |       Spanish_Argentina.php
+    |   |   |   |       Spanish_Bolivia.php
+    |   |   |   |       Spanish_Chile.php
+    |   |   |   |       Spanish_Colombia.php
+    |   |   |   |       Spanish_Costa_Rica.php
+    |   |   |   |       Spanish_Dominican_Republic.php
+    |   |   |   |       Spanish_Ecuador.php
+    |   |   |   |       Spanish_El_Salvador.php
+    |   |   |   |       Spanish_Guatemala.php
+    |   |   |   |       Spanish_Honduras.php
+    |   |   |   |       Spanish_Mexico.php
+    |   |   |   |       Spanish_Nicaragua.php
+    |   |   |   |       Spanish_Panama.php
+    |   |   |   |       Spanish_Paraguay.php
+    |   |   |   |       Spanish_Peru.php
+    |   |   |   |       Spanish_Puerto_Rico.php
+    |   |   |   |       Spanish_Spain.php
+    |   |   |   |       Spanish_United_States.php
+    |   |   |   |       Spanish_Uruguay.php
+    |   |   |   |       Spanish_Venezuela.php
+    |   |   |   |       Swedish_Finland.php
+    |   |   |   |       Swedish_Sweden.php
+    |   |   |   |       Tajik_(Cyrillic)_Tajikistan.php
+    |   |   |   |       Tamazight_(Latin)_Algeria.php
+    |   |   |   |       Tatar_Russia.php
+    |   |   |   |       Turkish_Turkey.php
+    |   |   |   |       Turkmen_Turkmenistan.php
+    |   |   |   |       Ukrainian_Ukraine.php
+    |   |   |   |       Upper_Sorbian_Germany.php
+    |   |   |   |       Urdu_Islamic_Republic_of_Pakistan.php
+    |   |   |   |       Uzbek_(Cyrillic)_Uzbekistan.php
+    |   |   |   |       Uzbek_(Latin)_Uzbekistan.php
+    |   |   |   |       Vietnamese_Vietnam.php
+    |   |   |   |       Welsh_United_Kingdom.php
+    |   |   |   |       Wolof_Senegal.php
+    |   |   |   |       Yakut_Russia.php
+    |   |   |   |       Yoruba_Nigeria.php
+    |   |   |   |       
+    |   |   |   +---font
+    |   |   |   |       ccourier.php
+    |   |   |   |       ccourierb.php
+    |   |   |   |       ccourierbi.php
+    |   |   |   |       ccourieri.php
+    |   |   |   |       chelvetica.php
+    |   |   |   |       chelveticab.php
+    |   |   |   |       chelveticabi.php
+    |   |   |   |       chelveticai.php
+    |   |   |   |       csymbol.php
+    |   |   |   |       ctimes.php
+    |   |   |   |       ctimesb.php
+    |   |   |   |       ctimesbi.php
+    |   |   |   |       ctimesi.php
+    |   |   |   |       czapfdingbats.php
+    |   |   |   |       
+    |   |   |   +---iccprofiles
+    |   |   |   |       sRGB_IEC61966-2-1.icc
+    |   |   |   |       
+    |   |   |   \---patterns
+    |   |   |           de.php
+    |   |   |           dictionary.txt
+    |   |   |           en.php
+    |   |   |           es.php
+    |   |   |           fi.php
+    |   |   |           fr.php
+    |   |   |           it.php
+    |   |   |           nl.php
+    |   |   |           NOTES.txt
+    |   |   |           pl.php
+    |   |   |           ru.php
+    |   |   |           sv.php
+    |   |   |           
+    |   |   +---src
+    |   |   |   |   AssetFetcher.php
+    |   |   |   |   Barcode.php
+    |   |   |   |   Cache.php
+    |   |   |   |   CssManager.php
+    |   |   |   |   DirectWrite.php
+    |   |   |   |   Form.php
+    |   |   |   |   FpdiTrait.php
+    |   |   |   |   functions-dev.php
+    |   |   |   |   functions.php
+    |   |   |   |   Gradient.php
+    |   |   |   |   HTMLParserMode.php
+    |   |   |   |   Hyphenator.php
+    |   |   |   |   Mpdf.php
+    |   |   |   |   MpdfException.php
+    |   |   |   |   MpdfImageException.php
+    |   |   |   |   Otl.php
+    |   |   |   |   OtlDump.php
+    |   |   |   |   PageBox.php
+    |   |   |   |   PageFormat.php
+    |   |   |   |   ServiceFactory.php
+    |   |   |   |   SizeConverter.php
+    |   |   |   |   Strict.php
+    |   |   |   |   TableOfContents.php
+    |   |   |   |   Tag.php
+    |   |   |   |   TTFontFile.php
+    |   |   |   |   TTFontFileAnalysis.php
+    |   |   |   |   Ucdn.php
+    |   |   |   |   Watermark.php
+    |   |   |   |   WatermarkImage.php
+    |   |   |   |   WatermarkText.php
+    |   |   |   |   
+    |   |   |   +---Barcode
+    |   |   |   |       AbstractBarcode.php
+    |   |   |   |       BarcodeException.php
+    |   |   |   |       BarcodeInterface.php
+    |   |   |   |       Codabar.php
+    |   |   |   |       Code11.php
+    |   |   |   |       Code128.php
+    |   |   |   |       Code39.php
+    |   |   |   |       Code93.php
+    |   |   |   |       EanExt.php
+    |   |   |   |       EanUpc.php
+    |   |   |   |       I25.php
+    |   |   |   |       Imb.php
+    |   |   |   |       Msi.php
+    |   |   |   |       Postnet.php
+    |   |   |   |       Rm4Scc.php
+    |   |   |   |       S25.php
+    |   |   |   |       
+    |   |   |   +---Color
+    |   |   |   |       ColorConverter.php
+    |   |   |   |       ColorModeConverter.php
+    |   |   |   |       ColorSpaceRestrictor.php
+    |   |   |   |       NamedColors.php
+    |   |   |   |       
+    |   |   |   +---Config
+    |   |   |   |       ConfigVariables.php
+    |   |   |   |       FontVariables.php
+    |   |   |   |       
+    |   |   |   +---Container
+    |   |   |   |       ContainerInterface.php
+    |   |   |   |       NotFoundException.php
+    |   |   |   |       SimpleContainer.php
+    |   |   |   |       
+    |   |   |   +---Conversion
+    |   |   |   |       DecToAlpha.php
+    |   |   |   |       DecToCjk.php
+    |   |   |   |       DecToHebrew.php
+    |   |   |   |       DecToOther.php
+    |   |   |   |       DecToRoman.php
+    |   |   |   |       
+    |   |   |   +---Css
+    |   |   |   |       Border.php
+    |   |   |   |       DefaultCss.php
+    |   |   |   |       TextVars.php
+    |   |   |   |       
+    |   |   |   +---Exception
+    |   |   |   |       AssetFetchingException.php
+    |   |   |   |       FontException.php
+    |   |   |   |       InvalidArgumentException.php
+    |   |   |   |       
+    |   |   |   +---File
+    |   |   |   |       LocalContentLoader.php
+    |   |   |   |       LocalContentLoaderInterface.php
+    |   |   |   |       StreamWrapperChecker.php
+    |   |   |   |       
+    |   |   |   +---Fonts
+    |   |   |   |       FontCache.php
+    |   |   |   |       FontFileFinder.php
+    |   |   |   |       GlyphOperator.php
+    |   |   |   |       MetricsGenerator.php
+    |   |   |   |       
+    |   |   |   +---Gif
+    |   |   |   |       ColorTable.php
+    |   |   |   |       FileHeader.php
+    |   |   |   |       Gif.php
+    |   |   |   |       Image.php
+    |   |   |   |       ImageHeader.php
+    |   |   |   |       Lzw.php
+    |   |   |   |       
+    |   |   |   +---Http
+    |   |   |   |   |   ClientInterface.php
+    |   |   |   |   |   CurlHttpClient.php
+    |   |   |   |   |   SocketHttpClient.php
+    |   |   |   |   |   
+    |   |   |   |   \---Exception
+    |   |   |   |           ClientException.php
+    |   |   |   |           ForbiddenRequestException.php
+    |   |   |   |           NetworkException.php
+    |   |   |   |           RequestException.php
+    |   |   |   |           
+    |   |   |   +---Image
+    |   |   |   |       Bmp.php
+    |   |   |   |       ImageProcessor.php
+    |   |   |   |       ImageTypeGuesser.php
+    |   |   |   |       Svg.php
+    |   |   |   |       Wmf.php
+    |   |   |   |       
+    |   |   |   +---Language
+    |   |   |   |       LanguageToFont.php
+    |   |   |   |       LanguageToFontInterface.php
+    |   |   |   |       ScriptToLanguage.php
+    |   |   |   |       ScriptToLanguageInterface.php
+    |   |   |   |       
+    |   |   |   +---Log
+    |   |   |   |       Context.php
+    |   |   |   |       
+    |   |   |   +---Output
+    |   |   |   |       Destination.php
+    |   |   |   |       
+    |   |   |   +---Pdf
+    |   |   |   |   |   Protection.php
+    |   |   |   |   |   
+    |   |   |   |   \---Protection
+    |   |   |   |           UniqidGenerator.php
+    |   |   |   |           
+    |   |   |   +---Shaper
+    |   |   |   |       Indic.php
+    |   |   |   |       Myanmar.php
+    |   |   |   |       Sea.php
+    |   |   |   |       
+    |   |   |   +---Tag
+    |   |   |   |       A.php
+    |   |   |   |       Acronym.php
+    |   |   |   |       Address.php
+    |   |   |   |       Annotation.php
+    |   |   |   |       Article.php
+    |   |   |   |       Aside.php
+    |   |   |   |       B.php
+    |   |   |   |       BarCode.php
+    |   |   |   |       Bdi.php
+    |   |   |   |       Bdo.php
+    |   |   |   |       Big.php
+    |   |   |   |       BlockQuote.php
+    |   |   |   |       BlockTag.php
+    |   |   |   |       Bookmark.php
+    |   |   |   |       Br.php
+    |   |   |   |       Caption.php
+    |   |   |   |       Center.php
+    |   |   |   |       Cite.php
+    |   |   |   |       Code.php
+    |   |   |   |       ColumnBreak.php
+    |   |   |   |       Columns.php
+    |   |   |   |       Dd.php
+    |   |   |   |       Del.php
+    |   |   |   |       Details.php
+    |   |   |   |       Div.php
+    |   |   |   |       Dl.php
+    |   |   |   |       DotTab.php
+    |   |   |   |       Dt.php
+    |   |   |   |       Em.php
+    |   |   |   |       FieldSet.php
+    |   |   |   |       FigCaption.php
+    |   |   |   |       Figure.php
+    |   |   |   |       Font.php
+    |   |   |   |       Footer.php
+    |   |   |   |       Form.php
+    |   |   |   |       FormFeed.php
+    |   |   |   |       H1.php
+    |   |   |   |       H2.php
+    |   |   |   |       H3.php
+    |   |   |   |       H4.php
+    |   |   |   |       H5.php
+    |   |   |   |       H6.php
+    |   |   |   |       Header.php
+    |   |   |   |       HGroup.php
+    |   |   |   |       Hr.php
+    |   |   |   |       I.php
+    |   |   |   |       Img.php
+    |   |   |   |       IndexEntry.php
+    |   |   |   |       IndexInsert.php
+    |   |   |   |       InlineTag.php
+    |   |   |   |       Input.php
+    |   |   |   |       Ins.php
+    |   |   |   |       Kbd.php
+    |   |   |   |       Legend.php
+    |   |   |   |       Li.php
+    |   |   |   |       Main.php
+    |   |   |   |       Mark.php
+    |   |   |   |       Meter.php
+    |   |   |   |       Nav.php
+    |   |   |   |       NewColumn.php
+    |   |   |   |       NewPage.php
+    |   |   |   |       Ol.php
+    |   |   |   |       Option.php
+    |   |   |   |       P.php
+    |   |   |   |       PageBreak.php
+    |   |   |   |       PageFooter.php
+    |   |   |   |       PageHeader.php
+    |   |   |   |       Pre.php
+    |   |   |   |       Progress.php
+    |   |   |   |       Q.php
+    |   |   |   |       S.php
+    |   |   |   |       Samp.php
+    |   |   |   |       Section.php
+    |   |   |   |       Select.php
+    |   |   |   |       SetHtmlPageFooter.php
+    |   |   |   |       SetHtmlPageHeader.php
+    |   |   |   |       SetPageFooter.php
+    |   |   |   |       SetPageHeader.php
+    |   |   |   |       Small.php
+    |   |   |   |       Span.php
+    |   |   |   |       Strike.php
+    |   |   |   |       Strong.php
+    |   |   |   |       Sub.php
+    |   |   |   |       SubstituteTag.php
+    |   |   |   |       Summary.php
+    |   |   |   |       Sup.php
+    |   |   |   |       Table.php
+    |   |   |   |       Tag.php
+    |   |   |   |       TBody.php
+    |   |   |   |       Td.php
+    |   |   |   |       TextArea.php
+    |   |   |   |       TextCircle.php
+    |   |   |   |       TFoot.php
+    |   |   |   |       Th.php
+    |   |   |   |       THead.php
+    |   |   |   |       Time.php
+    |   |   |   |       Toc.php
+    |   |   |   |       TocEntry.php
+    |   |   |   |       TocPageBreak.php
+    |   |   |   |       Tr.php
+    |   |   |   |       Tt.php
+    |   |   |   |       Tta.php
+    |   |   |   |       Tts.php
+    |   |   |   |       Ttz.php
+    |   |   |   |       U.php
+    |   |   |   |       Ul.php
+    |   |   |   |       VarTag.php
+    |   |   |   |       WatermarkImage.php
+    |   |   |   |       WatermarkText.php
+    |   |   |   |       
+    |   |   |   +---Utils
+    |   |   |   |       Arrays.php
+    |   |   |   |       NumericString.php
+    |   |   |   |       PdfDate.php
+    |   |   |   |       UtfString.php
+    |   |   |   |       
+    |   |   |   \---Writer
+    |   |   |           BackgroundWriter.php
+    |   |   |           BaseWriter.php
+    |   |   |           BookmarkWriter.php
+    |   |   |           ColorWriter.php
+    |   |   |           FontWriter.php
+    |   |   |           FormWriter.php
+    |   |   |           ImageWriter.php
+    |   |   |           JavaScriptWriter.php
+    |   |   |           MetadataWriter.php
+    |   |   |           ObjectWriter.php
+    |   |   |           OptionalContentWriter.php
+    |   |   |           PageWriter.php
+    |   |   |           ResourceWriter.php
+    |   |   |           
+    |   |   +---tmp
+    |   |   |       .gitignore
+    |   |   |       
+    |   |   \---ttfonts
+    |   |           AboriginalSansREGULAR.ttf
+    |   |           Abyssinica_SIL.ttf
+    |   |           Aegean.otf
+    |   |           Aegyptus.otf
+    |   |           Akkadian.otf
+    |   |           ayar.ttf
+    |   |           damase_v.2.ttf
+    |   |           DBSILBR.ttf
+    |   |           DejaVuinfo.txt
+    |   |           DejaVuSans-Bold.ttf
+    |   |           DejaVuSans-BoldOblique.ttf
+    |   |           DejaVuSans-Oblique.ttf
+    |   |           DejaVuSans.ttf
+    |   |           DejaVuSansCondensed-Bold.ttf
+    |   |           DejaVuSansCondensed-BoldOblique.ttf
+    |   |           DejaVuSansCondensed-Oblique.ttf
+    |   |           DejaVuSansCondensed.ttf
+    |   |           DejaVuSansMono-Bold.ttf
+    |   |           DejaVuSansMono-BoldOblique.ttf
+    |   |           DejaVuSansMono-Oblique.ttf
+    |   |           DejaVuSansMono.ttf
+    |   |           DejaVuSerif-Bold.ttf
+    |   |           DejaVuSerif-BoldItalic.ttf
+    |   |           DejaVuSerif-Italic.ttf
+    |   |           DejaVuSerif.ttf
+    |   |           DejaVuSerifCondensed-Bold.ttf
+    |   |           DejaVuSerifCondensed-BoldItalic.ttf
+    |   |           DejaVuSerifCondensed-Italic.ttf
+    |   |           DejaVuSerifCondensed.ttf
+    |   |           Dhyana-Bold.ttf
+    |   |           Dhyana-Regular.ttf
+    |   |           DhyanaOFL.txt
+    |   |           Eeyek-Regular.ttf
+    |   |           FreeMono.ttf
+    |   |           FreeMonoBold.ttf
+    |   |           FreeMonoBoldOblique.ttf
+    |   |           FreeMonoOblique.ttf
+    |   |           FreeSans.ttf
+    |   |           FreeSansBold.ttf
+    |   |           FreeSansBoldOblique.ttf
+    |   |           FreeSansOblique.ttf
+    |   |           FreeSerif.ttf
+    |   |           FreeSerifBold.ttf
+    |   |           FreeSerifBoldItalic.ttf
+    |   |           FreeSerifItalic.ttf
+    |   |           Garuda-Bold.ttf
+    |   |           Garuda-BoldOblique.ttf
+    |   |           Garuda-Oblique.ttf
+    |   |           Garuda.ttf
+    |   |           GNUFreeFontinfo.txt
+    |   |           Jomolhari-OFL.txt
+    |   |           Jomolhari.ttf
+    |   |           kaputaunicode.ttf
+    |   |           KhmerOFL.txt
+    |   |           KhmerOS.ttf
+    |   |           lannaalif-v1-03.ttf
+    |   |           Lateef font OFL.txt
+    |   |           LateefRegOT.ttf
+    |   |           Lohit-Kannada.ttf
+    |   |           LohitKannadaOFL.txt
+    |   |           ocrb10.ttf
+    |   |           ocrbinfo.txt
+    |   |           Padauk-book.ttf
+    |   |           Pothana2000.ttf
+    |   |           Quivira.otf
+    |   |           Sun-ExtA.ttf
+    |   |           Sun-ExtB.ttf
+    |   |           SundaneseUnicode-1.0.5.ttf
+    |   |           SyrCOMEdessa.otf
+    |   |           SyrCOMEdessa_license.txt
+    |   |           TaameyDavidCLM-LICENSE.txt
+    |   |           TaameyDavidCLM-Medium.ttf
+    |   |           TaiHeritagePro.ttf
+    |   |           Tharlon-Regular.ttf
+    |   |           TharlonOFL.txt
+    |   |           UnBatang_0613.ttf
+    |   |           Uthman.otf
+    |   |           XB Riyaz.ttf
+    |   |           XB RiyazBd.ttf
+    |   |           XB RiyazBdIt.ttf
+    |   |           XB RiyazIt.ttf
+    |   |           XW Zar Font Info.txt
+    |   |           ZawgyiOne.ttf
+    |   |           
+    |   +---psr-http-message-shim
+    |   |   |   composer.json
+    |   |   |   README.md
+    |   |   |   
+    |   |   \---src
+    |   |           Request.php
+    |   |           Response.php
+    |   |           Stream.php
+    |   |           Uri.php
+    |   |           
+    |   \---psr-log-aware-trait
+    |       |   .gitignore
+    |       |   composer.json
+    |       |   README.md
+    |       |   
+    |       \---src
+    |               MpdfPsrLogAwareTrait.php
+    |               PsrLogAwareTrait.php
+    |               
+    +---myclabs
+    |   \---deep-copy
+    |       |   composer.json
+    |       |   LICENSE
+    |       |   README.md
+    |       |   
+    |       \---src
+    |           \---DeepCopy
+    |               |   DeepCopy.php
+    |               |   deep_copy.php
+    |               |   
+    |               +---Exception
+    |               |       CloneException.php
+    |               |       PropertyException.php
+    |               |       
+    |               +---Filter
+    |               |   |   ChainableFilter.php
+    |               |   |   Filter.php
+    |               |   |   KeepFilter.php
+    |               |   |   ReplaceFilter.php
+    |               |   |   SetNullFilter.php
+    |               |   |   
+    |               |   \---Doctrine
+    |               |           DoctrineCollectionFilter.php
+    |               |           DoctrineEmptyCollectionFilter.php
+    |               |           DoctrineProxyFilter.php
+    |               |           
+    |               +---Matcher
+    |               |   |   Matcher.php
+    |               |   |   PropertyMatcher.php
+    |               |   |   PropertyNameMatcher.php
+    |               |   |   PropertyTypeMatcher.php
+    |               |   |   
+    |               |   \---Doctrine
+    |               |           DoctrineProxyMatcher.php
+    |               |           
+    |               +---Reflection
+    |               |       ReflectionHelper.php
+    |               |       
+    |               +---TypeFilter
+    |               |   |   ReplaceFilter.php
+    |               |   |   ShallowCopyFilter.php
+    |               |   |   TypeFilter.php
+    |               |   |   
+    |               |   +---Date
+    |               |   |       DateIntervalFilter.php
+    |               |   |       DatePeriodFilter.php
+    |               |   |       
+    |               |   \---Spl
+    |               |           ArrayObjectFilter.php
+    |               |           SplDoublyLinkedList.php
+    |               |           SplDoublyLinkedListFilter.php
+    |               |           
+    |               \---TypeMatcher
+    |                       TypeMatcher.php
+    |                       
+    +---paragonie
+    |   \---random_compat
+    |       |   build-phar.sh
+    |       |   composer.json
+    |       |   LICENSE
+    |       |   psalm-autoload.php
+    |       |   psalm.xml
+    |       |   
+    |       +---dist
+    |       |       random_compat.phar.pubkey
+    |       |       random_compat.phar.pubkey.asc
+    |       |       
+    |       +---lib
+    |       |       random.php
+    |       |       
+    |       \---other
+    |               build_phar.php
+    |               
     +---phpoption
     |   \---phpoption
     |       |   composer.json
@@ -106,6 +812,120 @@ C:.
     |                   None.php
     |                   Option.php
     |                   Some.php
+    |                   
+    +---psr
+    |   +---http-message
+    |   |   |   CHANGELOG.md
+    |   |   |   composer.json
+    |   |   |   LICENSE
+    |   |   |   README.md
+    |   |   |   
+    |   |   +---docs
+    |   |   |       PSR7-Interfaces.md
+    |   |   |       PSR7-Usage.md
+    |   |   |       
+    |   |   \---src
+    |   |           MessageInterface.php
+    |   |           RequestInterface.php
+    |   |           ResponseInterface.php
+    |   |           ServerRequestInterface.php
+    |   |           StreamInterface.php
+    |   |           UploadedFileInterface.php
+    |   |           UriInterface.php
+    |   |           
+    |   \---log
+    |       |   composer.json
+    |       |   LICENSE
+    |       |   README.md
+    |       |   
+    |       \---src
+    |               AbstractLogger.php
+    |               InvalidArgumentException.php
+    |               LoggerAwareInterface.php
+    |               LoggerAwareTrait.php
+    |               LoggerInterface.php
+    |               LoggerTrait.php
+    |               LogLevel.php
+    |               NullLogger.php
+    |               
+    +---setasign
+    |   \---fpdi
+    |       |   composer.json
+    |       |   LICENSE.txt
+    |       |   README.md
+    |       |   SECURITY.md
+    |       |   
+    |       \---src
+    |           |   autoload.php
+    |           |   FpdfTpl.php
+    |           |   FpdfTplTrait.php
+    |           |   FpdfTrait.php
+    |           |   Fpdi.php
+    |           |   FpdiException.php
+    |           |   FpdiTrait.php
+    |           |   GraphicsState.php
+    |           |   TcpdfFpdi.php
+    |           |   
+    |           +---Math
+    |           |       Matrix.php
+    |           |       Vector.php
+    |           |       
+    |           +---PdfParser
+    |           |   |   PdfParser.php
+    |           |   |   PdfParserException.php
+    |           |   |   StreamReader.php
+    |           |   |   Tokenizer.php
+    |           |   |   
+    |           |   +---CrossReference
+    |           |   |       AbstractReader.php
+    |           |   |       CrossReference.php
+    |           |   |       CrossReferenceException.php
+    |           |   |       FixedReader.php
+    |           |   |       LineReader.php
+    |           |   |       ReaderInterface.php
+    |           |   |       
+    |           |   +---Filter
+    |           |   |       Ascii85.php
+    |           |   |       Ascii85Exception.php
+    |           |   |       AsciiHex.php
+    |           |   |       FilterException.php
+    |           |   |       FilterInterface.php
+    |           |   |       Flate.php
+    |           |   |       FlateException.php
+    |           |   |       Lzw.php
+    |           |   |       LzwException.php
+    |           |   |       
+    |           |   \---Type
+    |           |           PdfArray.php
+    |           |           PdfBoolean.php
+    |           |           PdfDictionary.php
+    |           |           PdfHexString.php
+    |           |           PdfIndirectObject.php
+    |           |           PdfIndirectObjectReference.php
+    |           |           PdfName.php
+    |           |           PdfNull.php
+    |           |           PdfNumeric.php
+    |           |           PdfStream.php
+    |           |           PdfString.php
+    |           |           PdfToken.php
+    |           |           PdfType.php
+    |           |           PdfTypeException.php
+    |           |           
+    |           +---PdfReader
+    |           |   |   Page.php
+    |           |   |   PageBoundaries.php
+    |           |   |   PdfReader.php
+    |           |   |   PdfReaderException.php
+    |           |   |   
+    |           |   \---DataStructure
+    |           |           Rectangle.php
+    |           |           
+    |           +---Tcpdf
+    |           |       Fpdi.php
+    |           |       
+    |           \---Tfpdf
+    |                   FpdfTpl.php
+    |                   Fpdi.php
     |                   
     +---symfony
     |   +---polyfill-ctype
