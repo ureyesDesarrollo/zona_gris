@@ -112,7 +112,7 @@ $router->add(
         $s = rawurldecode($fecha_hora);
         try {
             $dt = new DateTimeImmutable($s); // ISO ok (maneja Z/offset)
-            $dt = $dt->setTimezone(new DateTimeZone('America/Mexico_City'));
+            $dt = $dt->setTimezone(new DateTimeZone('America/Mazatlan'));
             $fechaSql = $dt->format('Y-m-d H:i:s'); // para DATETIME
             Logger::info("Validando consecutividad para relación $relacion_id con fecha $fechaSql");
         } catch (Throwable $e) {

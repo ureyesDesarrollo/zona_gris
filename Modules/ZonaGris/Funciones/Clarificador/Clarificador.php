@@ -134,28 +134,36 @@ class Clarificador
         try {
             $sql = "SELECT
     za.proceso_agrupado_id,
-    p.pro_id,
+    zd.pro_id,
     p.pro_total_kg,
     pt.pt_descripcion,
     za.descripcion AS agrupacion_descripcion,
-    GROUP_CONCAT(DISTINCT pt.pt_descripcion ORDER BY pt.pt_descripcion SEPARATOR ', ') AS tipos_preparacion,
     GROUP_CONCAT(
         CONCAT(m.mat_nombre, ' (', IFNULL(pm.pma_kg, 0), ' kg)')
-        ORDER BY m.mat_nombre 
+        ORDER BY m.mat_nombre
         SEPARATOR ', '
     ) AS materiales_con_cantidad
-FROM zn_procesos_agrupados za
-INNER JOIN zn_procesos_agrupados_detalle zd 
+FROM zn_procesos_agrupados AS za
+INNER JOIN zn_procesos_agrupados_detalle AS zd
     ON zd.proceso_agrupado_id = za.proceso_agrupado_id
-INNER JOIN procesos p 
+INNER JOIN procesos AS p
     ON p.pro_id = zd.pro_id
-INNER JOIN preparacion_tipo pt 
-    ON p.pt_id = pt.pt_id
-INNER JOIN procesos_materiales pm 
+INNER JOIN preparacion_tipo AS pt
+    ON pt.pt_id = p.pt_id
+INNER JOIN procesos_materiales AS pm
     ON pm.pro_id = p.pro_id
-INNER JOIN materiales m 
+INNER JOIN materiales AS m
     ON m.mat_id = pm.mat_id
-GROUP BY za.proceso_agrupado_id, za.descripcion;";
+WHERE EXISTS (
+    SELECT 1
+    FROM procesos_cocedores_relacion AS pcr
+    INNER JOIN procesos_cocedores_detalle AS pcd
+        ON pcd.relacion_id = pcr.relacion_id
+    WHERE pcr.proceso_agrupado_id = za.proceso_agrupado_id
+    GROUP BY pcr.relacion_id
+    HAVING COUNT(*) >= 2   -- 2 o más registros = 2+ horas
+)
+GROUP BY za.proceso_agrupado_id, za.descripcion, zd.pro_id, p.pro_total_kg, pt.pt_descripcion";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

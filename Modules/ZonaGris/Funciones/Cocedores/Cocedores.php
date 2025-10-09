@@ -327,6 +327,7 @@ class Cocedores
         $stmt->bindParam(':fecha_hora', $fecha_hora);
         $stmt->execute();
         $ultima = $stmt->fetchColumn();
+        Logger::info("Última hora registrada para relación $relacion_id es: " . ($ultima ?: 'Ninguna'));
 
         if (!$ultima) {
             // No hay registro anterior (es el primero): permitir
@@ -336,7 +337,7 @@ class Cocedores
         // Calcula diferencia en horas
         $diferencia = (strtotime($fecha_hora) - strtotime($ultima)) / 3600;
         Logger::info("Validando consecutividad: última hora: $ultima, nueva hora: $fecha_hora, diferencia: $diferencia horas");
-        if ($diferencia > 1) {
+        if ($diferencia > 1.5) { // Permitir un poco más de 1 hora por posibles retrasos
             return [
                 'ok' => false,
                 'last_hora' => $ultima,
