@@ -123,8 +123,9 @@ class ClarificadorController extends BaseController
         $data = Request::input();
         $validator = new Validator($data);
         $validator->required([
-            'isSupervisor',
-            'relacion_id'
+            'id',
+            'observaciones',
+            'detalle_id',
         ]);
 
         if ($validator->fails()) {
@@ -198,7 +199,7 @@ class ClarificadorController extends BaseController
 
         $res = $this->clarificador->obtenerDetalleClarificadorProceso($id);
         if ($res['success']) {
-            return $this->json(['ok' => $res['success']]);
+            return $this->json($res['success']);
         } else {
             return $this->json(['ok' => false, 'error' => $res['error']], 500);
         }

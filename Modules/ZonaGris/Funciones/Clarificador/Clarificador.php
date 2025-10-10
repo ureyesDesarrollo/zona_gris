@@ -41,81 +41,84 @@ class Clarificador
     {
         try {
             $sql = "SELECT 
-            c.clarificador_id,
-            c.nombre,
-            c.estatus,
-            r.relacion_id,
-            r.proceso_agrupado_id,
-            GROUP_CONCAT(DISTINCT p.pro_id ORDER BY p.pro_id ASC) AS procesos,
-            GROUP_CONCAT(CONCAT(m.mat_nombre, ' (', IFNULL(pm.pma_kg, 0), ' kg)')
-                        ORDER BY m.mat_nombre SEPARATOR ', ') AS materiales,
-            r.fecha_inicio,
-            pcd.fecha_hora,
-            pcd.param_solidos_entrada,
-            pcd.supervisor_validado,
-            pcd.control_procesos_validado,
+    c.clarificador_id,
+    c.nombre,
+    c.estatus,
+    r.relacion_id,
+    r.proceso_agrupado_id,
+    GROUP_CONCAT(DISTINCT p.pro_id ORDER BY p.pro_id ASC) AS procesos,
+    GROUP_CONCAT(CONCAT(m.mat_nombre, ' (', IFNULL(pm.pma_kg, 0), ' kg)')
+                ORDER BY m.mat_nombre SEPARATOR ', ') AS materiales,
+    r.fecha_inicio,
+    pcd.fecha_hora,
+    pcd.param_solidos_entrada,
+    pcd.supervisor_validado,
+    pcd.control_procesos_validado,
 
-            -- Métricas de la última hora cerrada (min 00-29 y 30-59)
-            IFNULL(vh.registros_ultima_hora, 0) AS registros_ultima_hora,
-            IFNULL(vh.count_reg_00a29, 0) AS count_reg_00a29,
-            IFNULL(vh.count_reg_30a59, 0) AS count_reg_30a59,
-            IFNULL(vh.supervisor_valida_00a29, 0) AS supervisor_valida_00a29,
-            IFNULL(vh.supervisor_valida_30a59, 0) AS supervisor_valida_30a59,
-            IFNULL(vh.control_valida_00a29, 0) AS control_valida_00a29,
-            IFNULL(vh.control_valida_30a59, 0) AS control_valida_30a59,
+    -- Métricas de la ventana seleccionada (hora anterior completa o hora actual en curso)
+    IFNULL(vh.registros_ventana, 0) AS registros_ultima_hora,
+    IFNULL(vh.count_reg_00a29, 0) AS count_reg_00a29,
+    IFNULL(vh.count_reg_30a59, 0) AS count_reg_30a59,
+    -- Indicador: se puede validar si hay registros en ambas mitades de la ventana
+    CASE 
+        WHEN IFNULL(vh.count_reg_00a29, 0) > 0 AND IFNULL(vh.count_reg_30a59, 0) > 0 THEN 1 
+        ELSE 0 
+    END AS puede_validar_hora
+FROM clarificadores c
+LEFT JOIN procesos_clarificador_relacion r 
+    ON c.clarificador_id = r.clarificador_id 
+    AND r.fecha_fin IS NULL
+LEFT JOIN zn_procesos_agrupados_detalle pad 
+    ON pad.proceso_agrupado_id = r.proceso_agrupado_id
+LEFT JOIN procesos p 
+    ON p.pro_id = pad.pro_id
+LEFT JOIN procesos_materiales pm 
+    ON pm.pro_id = p.pro_id
+LEFT JOIN materiales m 
+    ON m.mat_id = pm.mat_id
 
-            -- Indicador: se puede validar la hora si existen registros en ambas mitades
-            CASE 
-                WHEN IFNULL(vh.count_reg_00a29, 0) > 0 AND IFNULL(vh.count_reg_30a59, 0) > 0 THEN 1 
-                ELSE 0 
-            END AS puede_validar_hora
-        FROM clarificadores c
-        LEFT JOIN procesos_clarificador_relacion r 
-            ON c.clarificador_id = r.clarificador_id 
-            AND r.fecha_fin IS NULL
-        LEFT JOIN zn_procesos_agrupados_detalle pad 
-            ON pad.proceso_agrupado_id = r.proceso_agrupado_id
-        LEFT JOIN procesos p 
-            ON p.pro_id = pad.pro_id
-        LEFT JOIN procesos_materiales pm 
-            ON pm.pro_id = p.pro_id
-        LEFT JOIN materiales m 
-            ON m.mat_id = pm.mat_id
+-- Subquery: último registro por relación (para mostrar últimos datos puntuales)
+LEFT JOIN (
+    SELECT relacion_id, MAX(fecha_hora) AS ultima_fecha
+    FROM procesos_clarificador_detalle
+    GROUP BY relacion_id
+) ult 
+    ON ult.relacion_id = r.relacion_id
+LEFT JOIN procesos_clarificador_detalle pcd 
+    ON pcd.relacion_id = ult.relacion_id 
+    AND pcd.fecha_hora = ult.ultima_fecha
 
-        -- Subquery: último registro por relación (para mostrar últimos datos)
-        LEFT JOIN (
-            SELECT relacion_id, MAX(fecha_hora) AS ultima_fecha
-            FROM procesos_clarificador_detalle
-            GROUP BY relacion_id
-        ) ult 
-            ON ult.relacion_id = r.relacion_id
-        LEFT JOIN procesos_clarificador_detalle pcd 
-            ON pcd.relacion_id = ult.relacion_id 
-            AND pcd.fecha_hora = ult.ultima_fecha
+-- Subquery: ventana inteligente (hora anterior completa si minuto actual <= 10; si no, hora actual en curso)
+LEFT JOIN (
+    SELECT
+        pcd2.relacion_id,
+        COUNT(*) AS registros_ventana,
+        SUM(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 0 AND 29 THEN 1 ELSE 0 END) AS count_reg_00a29,
+        SUM(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 30 AND 59 THEN 1 ELSE 0 END) AS count_reg_30a59,
+        MAX(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 0 AND 29 THEN COALESCE(pcd2.supervisor_validado, 0) ELSE 0 END) AS supervisor_valida_00a29,
+        MAX(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 30 AND 59 THEN COALESCE(pcd2.supervisor_validado, 0) ELSE 0 END) AS supervisor_valida_30a59,
+        MAX(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 0 AND 29 THEN COALESCE(pcd2.control_procesos_validado, 0) ELSE 0 END) AS control_valida_00a29,
+        MAX(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 30 AND 59 THEN COALESCE(pcd2.control_procesos_validado, 0) ELSE 0 END) AS control_valida_30a59
+    FROM procesos_clarificador_detalle pcd2
+    WHERE pcd2.fecha_hora >= CASE 
+              WHEN MINUTE(NOW()) <= 10
+                   THEN DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 HOUR), '%Y-%m-%d %H:00:00')  -- hora anterior completa
+              ELSE DATE_FORMAT(NOW(), '%Y-%m-%d %H:00:00')                                   -- inicio de la hora actual
+          END
+      AND pcd2.fecha_hora < CASE 
+              WHEN MINUTE(NOW()) <= 10
+                   THEN DATE_FORMAT(NOW(), '%Y-%m-%d %H:00:00')                               -- fin de la hora anterior
+              ELSE NOW()                                                                      -- hasta ahora (hora actual)
+          END
+    GROUP BY pcd2.relacion_id
+) vh 
+    ON vh.relacion_id = r.relacion_id
 
-        -- Subquery: conteo y validaciones de la última hora cerrada (hora anterior)
-        LEFT JOIN (
-            SELECT
-                pcd2.relacion_id,
-                COUNT(*) AS registros_ultima_hora,
-                SUM(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 0 AND 29 THEN 1 ELSE 0 END) AS count_reg_00a29,
-                SUM(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 30 AND 59 THEN 1 ELSE 0 END) AS count_reg_30a59,
-                MAX(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 0 AND 29 THEN COALESCE(pcd2.supervisor_validado, 0) ELSE 0 END) AS supervisor_valida_00a29,
-                MAX(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 30 AND 59 THEN COALESCE(pcd2.supervisor_validado, 0) ELSE 0 END) AS supervisor_valida_30a59,
-                MAX(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 0 AND 29 THEN COALESCE(pcd2.control_procesos_validado, 0) ELSE 0 END) AS control_valida_00a29,
-                MAX(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 30 AND 59 THEN COALESCE(pcd2.control_procesos_validado, 0) ELSE 0 END) AS control_valida_30a59
-            FROM procesos_clarificador_detalle pcd2
-            WHERE pcd2.fecha_hora >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 HOUR), '%Y-%m-%d %H:00:00')
-            AND pcd2.fecha_hora <  DATE_FORMAT(NOW(), '%Y-%m-%d %H:00:00')
-            GROUP BY pcd2.relacion_id
-        ) vh 
-            ON vh.relacion_id = r.relacion_id
-
-        GROUP BY 
-            c.clarificador_id, c.nombre, 
-            r.relacion_id, r.proceso_agrupado_id, 
-            r.fecha_inicio
-        ORDER BY c.clarificador_id;";
+GROUP BY 
+    c.clarificador_id, c.nombre, 
+    r.relacion_id, r.proceso_agrupado_id, 
+    r.fecha_inicio
+ORDER BY c.clarificador_id;";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -133,37 +136,37 @@ class Clarificador
     public function obtenerProcesosActivos() {
         try {
             $sql = "SELECT
-    za.proceso_agrupado_id,
-    zd.pro_id,
-    p.pro_total_kg,
-    pt.pt_descripcion,
-    za.descripcion AS agrupacion_descripcion,
-    GROUP_CONCAT(
-        CONCAT(m.mat_nombre, ' (', IFNULL(pm.pma_kg, 0), ' kg)')
-        ORDER BY m.mat_nombre
-        SEPARATOR ', '
-    ) AS materiales_con_cantidad
-FROM zn_procesos_agrupados AS za
-INNER JOIN zn_procesos_agrupados_detalle AS zd
-    ON zd.proceso_agrupado_id = za.proceso_agrupado_id
-INNER JOIN procesos AS p
-    ON p.pro_id = zd.pro_id
-INNER JOIN preparacion_tipo AS pt
-    ON pt.pt_id = p.pt_id
-INNER JOIN procesos_materiales AS pm
-    ON pm.pro_id = p.pro_id
-INNER JOIN materiales AS m
-    ON m.mat_id = pm.mat_id
-WHERE EXISTS (
-    SELECT 1
-    FROM procesos_cocedores_relacion AS pcr
-    INNER JOIN procesos_cocedores_detalle AS pcd
-        ON pcd.relacion_id = pcr.relacion_id
-    WHERE pcr.proceso_agrupado_id = za.proceso_agrupado_id
-    GROUP BY pcr.relacion_id
-    HAVING COUNT(*) >= 2   -- 2 o más registros = 2+ horas
-)
-GROUP BY za.proceso_agrupado_id, za.descripcion, zd.pro_id, p.pro_total_kg, pt.pt_descripcion";
+            za.proceso_agrupado_id,
+            zd.pro_id,
+            p.pro_total_kg,
+            pt.pt_descripcion,
+            za.descripcion AS agrupacion_descripcion,
+            GROUP_CONCAT(
+                CONCAT(m.mat_nombre, ' (', IFNULL(pm.pma_kg, 0), ' kg)')
+                ORDER BY m.mat_nombre
+                SEPARATOR ', '
+            ) AS materiales_con_cantidad
+        FROM zn_procesos_agrupados AS za
+        INNER JOIN zn_procesos_agrupados_detalle AS zd
+            ON zd.proceso_agrupado_id = za.proceso_agrupado_id
+        INNER JOIN procesos AS p
+            ON p.pro_id = zd.pro_id
+        INNER JOIN preparacion_tipo AS pt
+            ON pt.pt_id = p.pt_id
+        INNER JOIN procesos_materiales AS pm
+            ON pm.pro_id = p.pro_id
+        INNER JOIN materiales AS m
+            ON m.mat_id = pm.mat_id
+        WHERE EXISTS (
+            SELECT 1
+            FROM procesos_cocedores_relacion AS pcr
+            INNER JOIN procesos_cocedores_detalle AS pcd
+                ON pcd.relacion_id = pcr.relacion_id
+            WHERE pcr.proceso_agrupado_id = za.proceso_agrupado_id
+            GROUP BY pcr.relacion_id
+            HAVING COUNT(*) >= 2   -- 2 o más registros = 2+ horas
+        )
+        GROUP BY za.proceso_agrupado_id, za.descripcion, zd.pro_id, p.pro_total_kg, pt.pt_descripcion";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -235,14 +238,14 @@ GROUP BY za.proceso_agrupado_id, za.descripcion, zd.pro_id, p.pro_total_kg, pt.p
                 param_ph_electrodo, param_ph_control, param_dosificacion_polimero, tanque,
                 tanque_hora_inicio, tanque_hora_fin, param_presion, param_entrada_aire,
                 param_varometro, param_nivel_nata, param_filtro_1, param_filtro_2, param_filtro_3,
-                param_filtro_4, param_filtro_5, cambio_filtro
+                param_filtro_4, param_filtro_5, cambio_filtro, observaciones
             ) VALUES (
                 :relacion_id, :usuario_id, :responsable_tipo, :param_solidos_entrada,
                 :param_flujo_salida, :param_ntu_entrada, :param_ntu_salida, :param_ph_entrada,
                 :param_ph_electrodo, :param_ph_control, :param_dosificacion_polimero, :tanque,
                 :tanque_hora_inicio, :tanque_hora_fin, :param_presion, :param_entrada_aire,
                 :param_varometro, :param_nivel_nata, :param_filtro_1, :param_filtro_2, :param_filtro_3,
-                :param_filtro_4, :param_filtro_5, :cambio_filtro
+                :param_filtro_4, :param_filtro_5, :cambio_filtro, :observaciones
             )");
 
             $stmt->bindParam(':relacion_id', $data['relacion_id'], PDO::PARAM_INT);
@@ -269,6 +272,7 @@ GROUP BY za.proceso_agrupado_id, za.descripcion, zd.pro_id, p.pro_total_kg, pt.p
             $stmt->bindParam(':param_filtro_4', $data['param_filtro_4'], PDO::PARAM_STR);
             $stmt->bindParam(':param_filtro_5', $data['param_filtro_5'], PDO::PARAM_STR);
             $stmt->bindParam(':cambio_filtro', $data['cambio_filtro'], PDO::PARAM_STR);
+            $stmt->bindParam(':observaciones', $data['observaciones'], PDO::PARAM_STR);
 
             $stmt->execute();
             return ['success' => true];
@@ -292,21 +296,24 @@ GROUP BY za.proceso_agrupado_id, za.descripcion, zd.pro_id, p.pro_total_kg, pt.p
             $isSupervisor = $data['isSupervisor'];
             $fecha_validacion = date('Y-m-d H:i:s');
             if ($isSupervisor) {
-                $stmt = $this->db->prepare("UPDATE procesos_clarificadores_detalle SET supervisor_validado = 1, 
-                supervisor_id = :supervisor_id, fecha_validacion = :fecha_validacion 
-                WHERE relacion_id = :relacion_id");
-                $stmt->bindParam(':supervisor_id', $data['supervisor_id'], PDO::PARAM_INT);
-                $stmt->bindParam(':fecha_validacion', $fecha_validacion, PDO::PARAM_STR);
-                $stmt->bindParam(':relacion_id', $data['relacion_id'], PDO::PARAM_INT);
+                $stmt = $this->db->prepare("UPDATE procesos_clarificador_detalle SET supervisor_validado = 1, 
+                supervisor_id = :id, fecha_validacion_supervisor = :fecha_validacion_supervisor, supervisor_observaciones = :observaciones
+                WHERE detalle_id = :detalle_id");
+                $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
+                $stmt->bindParam(':fecha_validacion_supervisor', $fecha_validacion, PDO::PARAM_STR);
+                $stmt->bindParam(':observaciones', $data['observaciones'], PDO::PARAM_STR);
+                $stmt->bindParam(':detalle_id', $data['detalle_id'], PDO::PARAM_INT);
                 $stmt->execute();
                 return ['success' => true];
             } else {
-                $stmt = $this->db->prepare("UPDATE procesos_clarificadores_detalle SET control_procesos_validado = 1, 
-                control_procesos_id = :control_procesos_id, fecha_validacion_control = :fecha_validacions_control 
-                WHERE relacion_id = :relacion_id");
-                $stmt->bindParam(':control_procesos_id', $data['control_procesos_id'], PDO::PARAM_INT);
+                $stmt = $this->db->prepare("UPDATE procesos_clarificador_detalle SET control_procesos_validado = 1, 
+                control_procesos_id = :id, fecha_validacion_control = :fecha_validacion_control, 
+                control_proceso_observaciones = :observaciones
+                WHERE detalle_id = :detalle_id");
+                $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
                 $stmt->bindParam(':fecha_validacion_control', $fecha_validacion, PDO::PARAM_STR);
-                $stmt->bindParam(':relacion_id', $data['relacion_id'], PDO::PARAM_INT);
+                $stmt->bindParam(':observaciones', $data['observaciones'], PDO::PARAM_STR);
+                $stmt->bindParam(':detalle_id', $data['detalle_id'], PDO::PARAM_INT);
                 $stmt->execute();
                 return ['success' => true];
             }
@@ -443,7 +450,8 @@ GROUP BY za.proceso_agrupado_id, za.descripcion, zd.pro_id, p.pro_total_kg, pt.p
 
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return ['success' => $result ?: []];
         } catch (PDOException $e) {
             Logger::error("Error al obtener detalle de clarificador-proceso: {mensaje}", ['mensaje' => $e->getMessage()]);
             return [];
