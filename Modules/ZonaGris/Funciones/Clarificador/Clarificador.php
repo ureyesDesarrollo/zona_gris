@@ -59,6 +59,11 @@ class Clarificador
     IFNULL(vh.registros_ventana, 0) AS registros_ultima_hora,
     IFNULL(vh.count_reg_00a29, 0) AS count_reg_00a29,
     IFNULL(vh.count_reg_30a59, 0) AS count_reg_30a59,
+    IFNULL(vh.supervisor_valida_00a29, 0) AS supervisor_valida_00a29,
+    IFNULL(vh.supervisor_valida_30a59, 0) AS supervisor_valida_30a59,
+    IFNULL(vh.control_valida_00a29, 0) AS control_valida_00a29,
+    IFNULL(vh.control_valida_30a59, 0) AS control_valida_30a59,
+
     -- Indicador: se puede validar si hay registros en ambas mitades de la ventana
     CASE 
         WHEN IFNULL(vh.count_reg_00a29, 0) > 0 AND IFNULL(vh.count_reg_30a59, 0) > 0 THEN 1 
@@ -101,12 +106,12 @@ LEFT JOIN (
         MAX(CASE WHEN MINUTE(pcd2.fecha_hora) BETWEEN 30 AND 59 THEN COALESCE(pcd2.control_procesos_validado, 0) ELSE 0 END) AS control_valida_30a59
     FROM procesos_clarificador_detalle pcd2
     WHERE pcd2.fecha_hora >= CASE 
-              WHEN MINUTE(NOW()) <= 10
+              WHEN MINUTE(NOW()) <= 10 
                    THEN DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 HOUR), '%Y-%m-%d %H:00:00')  -- hora anterior completa
               ELSE DATE_FORMAT(NOW(), '%Y-%m-%d %H:00:00')                                   -- inicio de la hora actual
           END
       AND pcd2.fecha_hora < CASE 
-              WHEN MINUTE(NOW()) <= 10
+              WHEN MINUTE(NOW()) <= 10 
                    THEN DATE_FORMAT(NOW(), '%Y-%m-%d %H:00:00')                               -- fin de la hora anterior
               ELSE NOW()                                                                      -- hasta ahora (hora actual)
           END
@@ -135,42 +140,57 @@ ORDER BY c.clarificador_id;";
      */
     public function obtenerProcesosActivos() {
         try {
-            $sql = "SELECT
-            za.proceso_agrupado_id,
-            zd.pro_id,
-            p.pro_total_kg,
-            pt.pt_descripcion,
-            za.descripcion AS agrupacion_descripcion,
-            GROUP_CONCAT(
-                CONCAT(m.mat_nombre, ' (', IFNULL(pm.pma_kg, 0), ' kg)')
-                ORDER BY m.mat_nombre
-                SEPARATOR ', '
-            ) AS materiales_con_cantidad
-        FROM zn_procesos_agrupados AS za
-        INNER JOIN zn_procesos_agrupados_detalle AS zd
-            ON zd.proceso_agrupado_id = za.proceso_agrupado_id
-        INNER JOIN procesos AS p
-            ON p.pro_id = zd.pro_id
-        INNER JOIN preparacion_tipo AS pt
-            ON pt.pt_id = p.pt_id
-        INNER JOIN procesos_materiales AS pm
-            ON pm.pro_id = p.pro_id
-        INNER JOIN materiales AS m
-            ON m.mat_id = pm.mat_id
-        WHERE EXISTS (
-            SELECT 1
-            FROM procesos_cocedores_relacion AS pcr
-            INNER JOIN procesos_cocedores_detalle AS pcd
-                ON pcd.relacion_id = pcr.relacion_id
-            WHERE pcr.proceso_agrupado_id = za.proceso_agrupado_id
-            GROUP BY pcr.relacion_id
-            HAVING COUNT(*) >= 2   -- 2 o más registros = 2+ horas
-        )
-        GROUP BY za.proceso_agrupado_id, za.descripcion, zd.pro_id, p.pro_total_kg, pt.pt_descripcion";
+            $sql = "WITH materiales_agrupados AS (
+  SELECT
+    zd.proceso_agrupado_id,
+    pm.mat_id,
+    SUM(pm.pma_kg) AS kg_por_material
+  FROM zn_procesos_agrupados_detalle zd
+  JOIN procesos_materiales pm ON pm.pro_id = zd.pro_id
+  GROUP BY zd.proceso_agrupado_id, pm.mat_id
+),
+agrupados_base AS (
+  SELECT
+    za.proceso_agrupado_id,
+    za.descripcion AS agrupacion_descripcion,
+    SUM(p.pro_total_kg) AS total_kg_agrupado,
+    GROUP_CONCAT(DISTINCT pt.pt_descripcion ORDER BY pt.pt_descripcion SEPARATOR ', ') AS pt_descripciones
+  FROM zn_procesos_agrupados za
+  JOIN zn_procesos_agrupados_detalle zd ON zd.proceso_agrupado_id = za.proceso_agrupado_id
+  JOIN procesos p ON p.pro_id = zd.pro_id
+  JOIN preparacion_tipo pt ON pt.pt_id = p.pt_id
+  WHERE EXISTS (
+    SELECT 1
+    FROM procesos_cocedores_relacion pcr
+    JOIN procesos_cocedores_detalle pcd ON pcd.relacion_id = pcr.relacion_id
+    WHERE pcr.proceso_agrupado_id = za.proceso_agrupado_id
+    GROUP BY pcr.relacion_id
+    HAVING COUNT(*) >= 2
+  )
+  GROUP BY za.proceso_agrupado_id, za.descripcion
+)
+SELECT
+  ab.proceso_agrupado_id,
+  ab.pt_descripciones,             -- aquí van “las dos” (o más) descripciones
+  ab.agrupacion_descripcion,
+  ab.total_kg_agrupado,
+  GROUP_CONCAT(
+    CONCAT(m.mat_nombre, ' (', ROUND(ma.kg_por_material, 2), ' kg)')
+    ORDER BY m.mat_nombre
+    SEPARATOR ', '
+  ) AS materiales_con_cantidad
+FROM agrupados_base ab
+JOIN materiales_agrupados ma ON ma.proceso_agrupado_id = ab.proceso_agrupado_id
+JOIN materiales m ON m.mat_id = ma.mat_id
+GROUP BY
+  ab.proceso_agrupado_id,
+  ab.pt_descripciones,
+  ab.agrupacion_descripcion,
+  ab.total_kg_agrupado;";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC) ;
+            return $result ?? [];
         } catch (PDOException $e) {
             Logger::error("Error al obtener procesos activos: " . $e->getMessage());
             return ['success' => false, 'error' => $e->getMessage()];

@@ -30,11 +30,7 @@ class ClarificadorController extends BaseController
     public function obtenerProcesosActivos()
     {
         $res = $this->clarificador->obtenerProcesosActivos();
-        if ($res) {
-            return $this->json($res);
-        } else {
-            return $this->json(['ok' => false, 'error' => 'Error al obtener procesos activos'], 500);
-        }
+        return $this->json($res);
     }
 
     public function iniciarProcesoClarificador()

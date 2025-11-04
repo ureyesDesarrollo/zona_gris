@@ -110,3 +110,11 @@ CREATE TABLE `paros_clarificador` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Registro de paros en clarificadores';
 
 INSERT INTO `bd_sis_preparacion`.`clarificadores` (`nombre`) VALUES ('Clarificador 1');
+INSERT INTO `bd_sis_preparacion`.`bitacora_modulos` (`bm_descripcion`) VALUES ('Clarificadores');
+
+-- ------ Alters
+ALTER TABLE procesos_clarificador_detalle ADD COLUMN supervisor_observaciones text COMMENT 'Observaciones adicionales del registro por el supervisor';
+ALTER TABLE procesos_clarificador_detalle ADD COLUMN control_proceso_observaciones text COMMENT 'Observaciones adicionales del registro por el control de procesos';
+ALTER TABLE procesos_clarificador_detalle ADD COLUMN observaciones text COMMENT 'Observaciones adicionales del registro';
+ALTER TABLE procesos_clarificador_detalle ADD COLUMN fecha_validacion_supervisor DATETIME;
+ALTER TABLE procesos_clarificador_detalle ADD COLUMN fecha_validacion_control DATETIME;
