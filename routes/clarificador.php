@@ -80,6 +80,22 @@ $router->add(
 
 $router->add(
     'POST',
+    '/api/zonagris/funciones/clarificador/insertarQuimico',
+    function () use ($funciones) {
+        $funciones->insertarQuimico();
+    }
+);
+
+$router->add(
+    'GET',
+    '/api/zonagris/funciones/clarificador/consularQuimicos',
+    function () use ($funciones) {
+        $funciones->consultarQuimicos();
+    }
+);
+
+$router->add(
+    'POST',
     '/api/zonagris/funciones/clarificador/insertarQuimicosClarificador',
     function () use ($funciones) {
         $funciones->insertarQuimicosClarificador();
@@ -107,6 +123,14 @@ $router->add(
     '/api/zonagris/funciones/clarificador/obtenerDetalleClarificadorProceso/(\d+)',
     function ($id) use ($funciones) {
         $funciones->obtenerDetalleClarificadorProceso($id);
+    }
+);
+
+$router->add(
+    'GET',
+    '/api/zonagris/funciones/clarificador/obtenerLoteQuimico/([^/]+)',
+    function ($lote) use ($funciones) {
+        $funciones->obtenerLoteQuimico($lote);
     }
 );
 

@@ -6,6 +6,7 @@ use App\BaseController;
 use App\Database;
 use App\Helpers\Request;
 use App\Helpers\Validator;
+use Exception;
 
 class ClarificadorController extends BaseController
 {
@@ -135,6 +136,31 @@ class ClarificadorController extends BaseController
         }
     }
 
+
+    public function insertarQuimico()
+    {
+        $data = Request::input();
+        $validator = new Validator($data);
+        $validator->required(['lote','nombre_quimico']);
+
+        if ($validator->fails()) {
+            return $this->json(['success' => false, 'errors' => $validator->errors()], 400);
+        }
+
+        $res = $this->clarificador->insertarQuimico($data['lote'], $data['nombre_quimico']);
+        if ($res['success']) {
+            return $this->json(['ok' => $res['success']]);
+        } else {
+            return $this->json(['ok' => false, 'error' => $res['error']], 500);
+        }
+    }
+
+    public function consultarQuimicos()
+    {
+        $res = $this->clarificador->consultarLotesQuimicos();
+        return $this->json($res);
+    }
+
     public function insertarQuimicosClarificador()
     {
         $data = Request::input();
@@ -189,7 +215,6 @@ class ClarificadorController extends BaseController
         }
     }
 
-
     public function obtenerDetalleClarificadorProceso($id)
     {
 
@@ -198,6 +223,45 @@ class ClarificadorController extends BaseController
             return $this->json($res['success']);
         } else {
             return $this->json(['ok' => false, 'error' => $res['error']], 500);
+        }
+    }
+
+    public function obtenerLoteQuimico($lote)
+    {
+        try {
+            $res = $this->clarificador->obtenerLoteQuimico($lote);
+
+            // Si hay error, retornar con código apropiado
+            if (!$res['success']) {
+                return $this->json([
+                    'success' => false,
+                    'error' => $res['error'],
+                    'data' => null
+                ], 400);
+            }
+
+            // Verificar que existan los datos esperados
+            if (!isset($res['data']['QUIMICOS']) || empty($res['data']['QUIMICOS'])) {
+                return $this->json([
+                    'success' => false,
+                    'error' => 'No se encontraron datos del lote',
+                    'data' => null
+                ], 404);
+            }
+
+            $quimico = $res['data']['QUIMICOS'][0];
+
+            return $this->json([
+                'success' => true,
+                'error' => null,
+                'data' => $quimico
+            ], 200);
+        } catch (Exception $ex) {
+            return $this->json([
+                'success' => false,
+                'error' => 'Error al procesar la solicitud: ' . $ex->getMessage(),
+                'data' => null
+            ], 500);
         }
     }
 }

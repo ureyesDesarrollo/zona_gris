@@ -66,13 +66,18 @@ CREATE TABLE `procesos_clarificador_detalle` (
     CONSTRAINT `fk_proc_clari_detalle_relacion` FOREIGN KEY (`relacion_id`) REFERENCES `procesos_clarificador_relacion` (`relacion_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Parámetros registrados cada media hora en clarificadores';
 
+CREATE TABLE `zn_quimicos` (
+    `quimico_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `lote` VARCHAR(50) NOT NULL,
+    `nombre_quimico` VARCHAR(30),
+    `estatus` TINYINT DEFAULT 1
+);
 
 -- ==========================================
 -- APLICACIÓN DE QUÍMICOS (INDEPENDIENTE DE LA RELACIÓN ACTIVA)
 -- ==========================================
 CREATE TABLE `aplicacion_quimicos_clarificador` (
     `aplicacion_id` int NOT NULL AUTO_INCREMENT,
-    `clarificador_id` int NOT NULL,
     `quimico_lote` varchar(100) NOT NULL COMMENT 'Lote del quimico aplicado',
     `cantidad` decimal(10,2) NOT NULL,
     `unidad_medida` varchar(20) NOT NULL COMMENT 'ml, L, kg, etc.',
@@ -80,10 +85,8 @@ CREATE TABLE `aplicacion_quimicos_clarificador` (
     `fecha_hora` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `observaciones` text,
     PRIMARY KEY (`aplicacion_id`),
-    KEY `idx_aplicacion_clarificador_id` (`clarificador_id`),
     KEY `idx_aplicacion_usuario_id` (`usuario_id`),
-    KEY `idx_aplicacion_fecha_hora` (`fecha_hora`),
-    CONSTRAINT `fk_aplicacion_clarificador` FOREIGN KEY (`clarificador_id`) REFERENCES `clarificadores` (`clarificador_id`)
+    KEY `idx_aplicacion_fecha_hora` (`fecha_hora`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Registro de aplicación de químicos en clarificadores';
 
 

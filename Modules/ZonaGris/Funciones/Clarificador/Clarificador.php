@@ -5,6 +5,8 @@ namespace Modules\ZonaGris\Funciones\Clarificador;
 use PDO;
 use PDOException;
 use App\Helpers\Logger;
+use Exception;
+use App\Constants;
 
 /**
  * Clase Clarificador
@@ -138,7 +140,8 @@ ORDER BY c.clarificador_id;";
      *
      * @return array
      */
-    public function obtenerProcesosActivos() {
+    public function obtenerProcesosActivos()
+    {
         try {
             $sql = "WITH materiales_agrupados AS (
   SELECT
@@ -189,7 +192,7 @@ GROUP BY
   ab.total_kg_agrupado;";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC) ;
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result ?? [];
         } catch (PDOException $e) {
             Logger::error("Error al obtener procesos activos: " . $e->getMessage());
@@ -343,6 +346,36 @@ GROUP BY
         }
     }
 
+
+    /** 
+     * Insertar quimico
+    */
+
+    public function insertarQuimico(String $lote,String $nombre) : array {
+        try{
+            $stmt = $this->db->prepare("INSERT INTO zn_quimicos (lote,nombre_quimico) VALUES (:lote, :nombre_quimico)");
+            $stmt->bindParam(":lote", $lote, PDO::PARAM_STR);
+            $stmt->bindParam(":nombre_quimico", $nombre, PDO::PARAM_STR);
+            $stmt->execute();
+            return ['success' => true];
+        } catch (PDOException $e) {
+            Logger::error("Error al validar hora: " . $e->getMessage());
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+    public function consultarLotesQuimicos() : array {
+        try{
+            $stmt = $this->db->prepare("SELECT * FROM zn_quimicos WHERE estatus = 1");
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result ?? [];
+        } catch (PDOException $e) {
+            Logger::error("Error al validar hora: " . $e->getMessage());
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
     /**
      * Insertar aplicación de químicos en un clarificador.
      *
@@ -475,6 +508,82 @@ GROUP BY
         } catch (PDOException $e) {
             Logger::error("Error al obtener detalle de clarificador-proceso: {mensaje}", ['mensaje' => $e->getMessage()]);
             return [];
+        }
+    }
+
+
+    //Consultar lote de quimico
+    public function obtenerLoteQuimico(String $lote): array
+    {
+        try {
+            $url = Constants::$urlSai . "/quimico/$lote";
+            $apiKey = "miclaveultrasecreta123";
+
+            $ch = curl_init();
+            curl_setopt_array($ch, [
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => [
+                    "X-API-Key: $apiKey"
+                ],
+                CURLOPT_TIMEOUT => 50,
+                CURLOPT_CONNECTTIMEOUT => 10 // Timeout de conexión
+            ]);
+
+            $response = curl_exec($ch);
+            $curlError = curl_errno($ch);
+            $curlErrorMsg = curl_error($ch);
+            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            // Manejar errores de cURL (red, timeout, etc.)
+            if ($curlError) {
+                return [
+                    "success" => false,
+                    "error" => "Error de conexión: " . $curlErrorMsg,
+                    "data" => null
+                ];
+            }
+
+            // Manejar 404 - Lote no encontrado
+            if ($statusCode === 404) {
+                return [
+                    "success" => false,
+                    "error" => "Lote no encontrado",
+                    "data" => null
+                ];
+            }
+
+            // Manejar otros códigos HTTP de error
+            if ($statusCode !== 200) {
+                return [
+                    "success" => false,
+                    "error" => "Error del servidor (HTTP $statusCode)",
+                    "data" => null
+                ];
+            }
+
+            // Decodificar respuesta
+            $data = json_decode($response, true);
+            if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+                return [
+                    "success" => false,
+                    "error" => "Error al procesar la respuesta del servidor",
+                    "data" => null
+                ];
+            }
+
+            return [
+                "success" => true,
+                "error" => null,
+                "data" => $data
+            ];
+        } catch (Exception $ex) {
+            return [
+                "success" => false,
+                "error" => "Error inesperado: " . $ex->getMessage(),
+                "data" => null
+            ];
         }
     }
 }
