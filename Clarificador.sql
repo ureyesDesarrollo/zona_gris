@@ -69,7 +69,7 @@ CREATE TABLE `procesos_clarificador_detalle` (
 CREATE TABLE `zn_quimicos` (
     `quimico_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `lote` VARCHAR(50) NOT NULL,
-    `nombre_quimico` VARCHAR(30),
+    `nombre_quimico` VARCHAR(50),
     `estatus` TINYINT DEFAULT 1
 );
 
@@ -79,12 +79,16 @@ CREATE TABLE `zn_quimicos` (
 CREATE TABLE `aplicacion_quimicos_clarificador` (
     `aplicacion_id` int NOT NULL AUTO_INCREMENT,
     `quimico_lote` varchar(100) NOT NULL COMMENT 'Lote del quimico aplicado',
+    `clarificador_id` INT NOT NULL,
     `cantidad` decimal(10,2) NOT NULL,
     `unidad_medida` varchar(20) NOT NULL COMMENT 'ml, L, kg, etc.',
-    `usuario_id` int NOT NULL,
+    `usuario_id` INT NOT NULL,
     `fecha_hora` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `observaciones` text,
+    `control_procesos_id` INT NOT NULL,
+    `observaciones` TEXT,
     PRIMARY KEY (`aplicacion_id`),
+    CONSTRAINT `fk_quimicos_clarificador_clarificador` FOREIGN KEY (`clarificador_id`) REFERENCES `clarificadores` (`clarificador_id`),
+    CONSTRAINT `fk_quimicos_clarificador_control_procesos_id` FOREIGN KEY (`control_procesos_id`) REFERENCES `usuarios` (`usu_id`),
     KEY `idx_aplicacion_usuario_id` (`usuario_id`),
     KEY `idx_aplicacion_fecha_hora` (`fecha_hora`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Registro de aplicación de químicos en clarificadores';

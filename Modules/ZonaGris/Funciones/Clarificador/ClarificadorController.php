@@ -141,7 +141,7 @@ class ClarificadorController extends BaseController
     {
         $data = Request::input();
         $validator = new Validator($data);
-        $validator->required(['lote','nombre_quimico']);
+        $validator->required(['lote', 'nombre_quimico']);
 
         if ($validator->fails()) {
             return $this->json(['success' => false, 'errors' => $validator->errors()], 400);
@@ -169,9 +169,7 @@ class ClarificadorController extends BaseController
             'clarificador_id',
             'quimico_lote',
             'cantidad',
-            'unidad_medida',
             'usuario_id',
-            'fecha_hora',
             'control_procesos_id'
         ]);
 
@@ -197,13 +195,25 @@ class ClarificadorController extends BaseController
             return $this->json(['success' => false, 'errors' => $validator->errors()], 400);
         }
 
-        $res = $this->clarificador->obtenerUltimoLote($data);
-        if ($res) {
-            return $this->json($res);
-        } else {
-            return $this->json(['ok' => false, 'error' => $res['error']], 500);
-        }
+        $res = $this->clarificador->obtenerUltimoLote($data['lote']);
+
+        return $this->json($res, $res['success'] ? 200 : 400);
     }
+
+    public function cambiarEstatusQuimico(){
+        $data = Request::input();
+        $validator = new Validator($data);
+        $validator->required(['lote']);
+
+        if($validator->fails()){
+            return $this->json(['success' => false, 'error' => $validator->errors()], 400);
+        }
+
+        $res = $this->clarificador->cambiarEstatusQuimico($data['lote']);
+        return $this->json($res, $res['success'] ? 200 : 400);
+    }
+
+    
 
     public function obtenerClarificadorProcesoById($id)
     {
@@ -264,4 +274,23 @@ class ClarificadorController extends BaseController
             ], 500);
         }
     }
+
+
+    public function obtenerMezclaEnProceso(){
+        try {
+            $res = $this->clarificador->obtenerMezclaEnProceso();
+            $this->json($res);
+        } catch (\Exception $e) {
+            $this->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function obtenerMezclaById($id){
+        try {
+            $res = $this->clarificador->obtenerMezclaById($id);
+            $this->json($res);
+        } catch (\Exception $e) {
+            $this->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
+    }    
 }

@@ -137,5 +137,3 @@ INSERT INTO `bd_sis_preparacion`.`cocedores` (`cocedor_id`,`nombre`, `capacidad`
 INSERT INTO `bd_sis_preparacion`.`bitacora_modulos` (`bm_descripcion`) VALUES ('Cocedores');
 -- INSERT INTO `bd_sis_preparacion`.`usuarios_permisos` (`bm_id`, `up_id`, `upe_agregar`, `upe_borrar`, `upe_editar`, `upe_listar`) VALUES ('51', '25', '1', '1', '1', '1');
 UPDATE `bd_sis_preparacion`.`usuarios_permisos` SET `up_id` = '25' WHERE (`upe_id` = '495');
-
-SELECT * FROM zn_procesos_agrupados;

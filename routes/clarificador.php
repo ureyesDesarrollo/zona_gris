@@ -56,7 +56,7 @@ $router->add(
 
 $router->add(
     'POST',
-    '/api/zonagris/funciones/clarificador/finalizarProcesoClarificador',
+    '/api/zonagris/funciones/clarificador/finalizar-mezcla',
     function () use ($funciones) {
         $funciones->finalizarProcesoClarificador();
     }
@@ -131,6 +131,31 @@ $router->add(
     '/api/zonagris/funciones/clarificador/obtenerLoteQuimico/([^/]+)',
     function ($lote) use ($funciones) {
         $funciones->obtenerLoteQuimico($lote);
+    }
+);
+
+$router->add(
+    'POST',
+    '/api/zonagris/funciones/clarificador/cambiarEstatusQuimico',
+    function() use ($funciones){
+        $funciones->cambiarEstatusQuimico();
+    }
+);
+
+
+$router->add(
+    'GET',
+    '/api/zonagris/funciones/clarificador/obtener-mezcla-en-proceso',
+    function () use ($funciones) {
+        $funciones->obtenerMezclaEnProceso();
+    }
+);
+
+$router->add(
+    'GET',
+    '/api/zonagris/funciones/clarificador/obtener-mezcla-by-id/(\d+)',
+    function ($id) use ($funciones) {
+        $funciones->obtenerMezclaById($id);
     }
 );
 

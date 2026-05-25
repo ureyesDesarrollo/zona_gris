@@ -4,6 +4,7 @@ namespace Modules\Auth;
 use PDO;
 use PDOException;
 use App\Helpers\Logger;
+use Exception;
 
 class User
 {
@@ -109,6 +110,25 @@ class User
         } catch (PDOException $e) {
             Logger::error("Error en getPermisos: {mensaje}", ['mensaje' => $e->getMessage()]);
             throw new \Exception("No se pudieron obtener los permisos");
+        }
+    }
+
+    public function validUserCode(String $code){
+        try{
+            $sql = "SELECT usu_id, usu_nombre, up_id FROM usuarios WHERE usu_clave_auth = :code AND usu_est = 'A'";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if(!$result){
+                return ['success' => false, 'error' => 'Clave incorrecta'];
+            }
+
+            return ['success' => true, 'data' => $result];
+        }catch(PDOException $e){
+            Logger::error("Error en validUserCode: {mensaje}", ['mensaje' => $e->getMessage()]);
+            throw new \Exception("No se pudieron obtener los datos");
         }
     }
 }

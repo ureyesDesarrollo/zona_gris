@@ -5,6 +5,7 @@ namespace Modules\Auth;
 use App\BaseController;
 use App\Database;
 use App\Helpers\Logger;
+use App\Helpers\Request;
 
 class PerfilController extends BaseController
 {
@@ -19,7 +20,7 @@ class PerfilController extends BaseController
     public function showPerfil(int $user)
     {
         try {
-            
+
             $usuario = $this->userModel->findById($user);
             if (!$usuario) {
                 $this->json(['error' => 'Usuario no encontrado'], 404);
@@ -36,10 +37,20 @@ class PerfilController extends BaseController
                 'perfil'         => $perfilNombre,
                 'permisos'       => $permisos
             ], 200);
-
         } catch (\Exception $e) {
             Logger::error("Error en showPerfil: {mensaje}", ['mensaje' => $e->getMessage()]);
             $this->json(['error' => 'Error al obtener el perfil'], 500);
+        }
+    }
+
+    public function  validUserCode()
+    {
+        try {
+            $data = Request::input();
+            $res = $this->userModel->validUserCode($data['clave']);
+            $this->json($res);
+        } catch (\Exception $e) {
+            $this->json($e->getMessage());
         }
     }
 }

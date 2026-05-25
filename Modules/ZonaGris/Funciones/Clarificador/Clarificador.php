@@ -144,52 +144,78 @@ ORDER BY c.clarificador_id;";
     {
         try {
             $sql = "WITH materiales_agrupados AS (
-  SELECT
-    zd.proceso_agrupado_id,
-    pm.mat_id,
-    SUM(pm.pma_kg) AS kg_por_material
-  FROM zn_procesos_agrupados_detalle zd
-  JOIN procesos_materiales pm ON pm.pro_id = zd.pro_id
-  GROUP BY zd.proceso_agrupado_id, pm.mat_id
-),
-agrupados_base AS (
-  SELECT
-    za.proceso_agrupado_id,
-    za.descripcion AS agrupacion_descripcion,
-    SUM(p.pro_total_kg) AS total_kg_agrupado,
-    GROUP_CONCAT(DISTINCT pt.pt_descripcion ORDER BY pt.pt_descripcion SEPARATOR ', ') AS pt_descripciones
-  FROM zn_procesos_agrupados za
-  JOIN zn_procesos_agrupados_detalle zd ON zd.proceso_agrupado_id = za.proceso_agrupado_id
-  JOIN procesos p ON p.pro_id = zd.pro_id
-  JOIN preparacion_tipo pt ON pt.pt_id = p.pt_id
-  WHERE EXISTS (
-    SELECT 1
-    FROM procesos_cocedores_relacion pcr
-    JOIN procesos_cocedores_detalle pcd ON pcd.relacion_id = pcr.relacion_id
-    WHERE pcr.proceso_agrupado_id = za.proceso_agrupado_id
-    GROUP BY pcr.relacion_id
-    HAVING COUNT(*) >= 2
-  )
-  GROUP BY za.proceso_agrupado_id, za.descripcion
-)
-SELECT
-  ab.proceso_agrupado_id,
-  ab.pt_descripciones,             -- aquí van “las dos” (o más) descripciones
-  ab.agrupacion_descripcion,
-  ab.total_kg_agrupado,
-  GROUP_CONCAT(
-    CONCAT(m.mat_nombre, ' (', ROUND(ma.kg_por_material, 2), ' kg)')
-    ORDER BY m.mat_nombre
-    SEPARATOR ', '
-  ) AS materiales_con_cantidad
-FROM agrupados_base ab
-JOIN materiales_agrupados ma ON ma.proceso_agrupado_id = ab.proceso_agrupado_id
-JOIN materiales m ON m.mat_id = ma.mat_id
-GROUP BY
-  ab.proceso_agrupado_id,
-  ab.pt_descripciones,
-  ab.agrupacion_descripcion,
-  ab.total_kg_agrupado;";
+        SELECT
+            zd.proceso_agrupado_id,
+            pm.mat_id,
+            SUM(pm.pma_kg) AS kg_por_material
+        FROM zn_procesos_agrupados_detalle zd
+        JOIN procesos_materiales pm ON pm.pro_id = zd.pro_id
+        GROUP BY zd.proceso_agrupado_id, pm.mat_id
+        ),
+
+        agrupados_base AS (
+        SELECT
+            za.proceso_agrupado_id,
+            za.descripcion AS agrupacion_descripcion,
+            SUM(p.pro_total_kg) AS total_kg_agrupado,
+            GROUP_CONCAT(DISTINCT pt.pt_descripcion ORDER BY pt.pt_descripcion SEPARATOR ', ') AS pt_descripciones
+        FROM zn_procesos_agrupados za
+        JOIN zn_procesos_agrupados_detalle zd 
+                ON zd.proceso_agrupado_id = za.proceso_agrupado_id
+        JOIN procesos p 
+                ON p.pro_id = zd.pro_id
+        JOIN preparacion_tipo pt 
+                ON pt.pt_id = p.pt_id
+
+        -- 🔥 Debe tener los dos registros en cocedores
+        WHERE EXISTS (
+            SELECT 1
+            FROM procesos_cocedores_relacion pcr
+            JOIN procesos_cocedores_detalle pcd
+                ON pcd.relacion_id = pcr.relacion_id
+            WHERE pcr.proceso_agrupado_id = za.proceso_agrupado_id
+            GROUP BY pcr.relacion_id
+            HAVING COUNT(*) >= 2
+        )
+
+        -- 🔥 Mostrar:
+        -- A) Procesos activos en clarificador (fecha_fin IS NULL)
+        -- B) Procesos que AÚN NO existen en clarificador
+        AND (
+            za.proceso_agrupado_id IN (
+                SELECT proceso_agrupado_id
+                FROM procesos_clarificador_relacion
+                WHERE fecha_fin IS NULL
+            )
+            OR za.proceso_agrupado_id NOT IN (
+                SELECT proceso_agrupado_id
+                FROM procesos_clarificador_relacion
+            )
+        )
+
+        GROUP BY za.proceso_agrupado_id, za.descripcion
+        )
+
+        SELECT
+        ab.proceso_agrupado_id,
+        ab.pt_descripciones,
+        ab.agrupacion_descripcion,
+        ab.total_kg_agrupado,
+        GROUP_CONCAT(
+            CONCAT(m.mat_nombre, ' (', ROUND(ma.kg_por_material, 2), ' kg)')
+            ORDER BY m.mat_nombre
+            SEPARATOR ', '
+        ) AS materiales_con_cantidad
+        FROM agrupados_base ab
+        JOIN materiales_agrupados ma 
+            ON ma.proceso_agrupado_id = ab.proceso_agrupado_id
+        JOIN materiales m 
+            ON m.mat_id = ma.mat_id
+        GROUP BY
+        ab.proceso_agrupado_id,
+        ab.pt_descripciones,
+        ab.agrupacion_descripcion,
+        ab.total_kg_agrupado";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -349,10 +375,11 @@ GROUP BY
 
     /** 
      * Insertar quimico
-    */
+     */
 
-    public function insertarQuimico(String $lote,String $nombre) : array {
-        try{
+    public function insertarQuimico(String $lote, String $nombre): array
+    {
+        try {
             $stmt = $this->db->prepare("INSERT INTO zn_quimicos (lote,nombre_quimico) VALUES (:lote, :nombre_quimico)");
             $stmt->bindParam(":lote", $lote, PDO::PARAM_STR);
             $stmt->bindParam(":nombre_quimico", $nombre, PDO::PARAM_STR);
@@ -364,8 +391,9 @@ GROUP BY
         }
     }
 
-    public function consultarLotesQuimicos() : array {
-        try{
+    public function consultarLotesQuimicos(): array
+    {
+        try {
             $stmt = $this->db->prepare("SELECT * FROM zn_quimicos WHERE estatus = 1");
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -386,16 +414,23 @@ GROUP BY
     public function insertarQuimicosClarificador(array $data): array
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO aplicacion_quimicos_clarificador (clarificador_id, quimico_lote, cantidad
-            unidad_medida, usuario_id, fecha_hora, control_procesos_id) 
-            VALUES (:clarificador_id, :quimico_lote, :cantidad, :unidad_medida, :usuario_id, :fecha_hora, :control_procesos_id)");
+            $stmt = $this->db->prepare("
+            INSERT INTO aplicacion_quimicos_clarificador 
+                (clarificador_id, quimico_lote, cantidad, unidad_medida, usuario_id, fecha_hora, control_procesos_id) 
+            VALUES 
+                (:clarificador_id, :quimico_lote, :cantidad, :unidad_medida, :usuario_id, NOW(), :control_procesos_id)
+        ");
+
             $stmt->bindParam(':clarificador_id', $data['clarificador_id'], PDO::PARAM_INT);
             $stmt->bindParam(':quimico_lote', $data['quimico_lote'], PDO::PARAM_STR);
             $stmt->bindParam(':cantidad', $data['cantidad'], PDO::PARAM_STR);
-            $stmt->bindParam(':unidad_medida', $data['unidad_medida'], PDO::PARAM_STR);
+
+            $unidad = 'Kg';
+            $stmt->bindParam(':unidad_medida', $unidad, PDO::PARAM_STR);
+
             $stmt->bindParam(':usuario_id', $data['usuario_id'], PDO::PARAM_INT);
-            $stmt->bindParam(':fecha_hora', $data['fecha_hora'], PDO::PARAM_STR);
             $stmt->bindParam(':control_procesos_id', $data['control_procesos_id'], PDO::PARAM_INT);
+
             $stmt->execute();
             return ['success' => true];
         } catch (PDOException $e) {
@@ -403,6 +438,21 @@ GROUP BY
             return ['success' => false, 'error' => $e->getMessage()];
         }
     }
+
+    public function cambiarEstatusQuimico(String $lote){
+        try{
+            $sql = "UPDATE zn_quimicos SET estatus = 0 WHERE lote = :lote";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':lote', $lote, PDO::PARAM_STR);
+            $stmt->execute();
+            return ['success' => true];
+        }catch(PDOException $e){
+            Logger::error("Error al cambiar estatus de quimico");
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+
     /**
      * Obtener el último lote aplicado en clarificador y validar si corresponde al lote indicado.
      *
@@ -413,22 +463,29 @@ GROUP BY
     public function obtenerUltimoLote(String $lote)
     {
         try {
-            $stmt = $this->db->prepare("SELECT quimico_lote, control_procesos_id FROM aplicacion_quimicos_clarificador 
-            LIMIT 1");
+            $stmt = $this->db->prepare("
+            SELECT quimico_lote, control_procesos_id 
+            FROM aplicacion_quimicos_clarificador 
+            ORDER BY aplicacion_id DESC 
+            LIMIT 1
+        ");
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($result['quimico_lote'] == $lote) {
-                return ['success' => true, 'lote' => $result['quimico_lote'], 'control_procesos_id' => $result['control_procesos_id']];
-            } else {
-                return ['success' => false, 'error' => 'Lote no validado por control de procesos'];
+
+            if (!$result) {
+                return ['success' => false, 'error' => 'No se encontraron registros'];
             }
+
+            if ($result['quimico_lote'] === $lote) {
+                return ['success' => true, 'lote' => $result['quimico_lote'], 'control_procesos_id' => $result['control_procesos_id']];
+            }
+
+            return ['success' => false, 'error' => 'Lote no validado por control de procesos', 'loteAnterior' => $result['quimico_lote']];
         } catch (PDOException $e) {
             Logger::error("Error al obtener ultimo lote: " . $e->getMessage());
             return ['success' => false, 'error' => $e->getMessage()];
         }
     }
-
-
 
     /**
      * Obtener proceso activo de un clarificador por su ID.
@@ -584,6 +641,38 @@ GROUP BY
                 "error" => "Error inesperado: " . $ex->getMessage(),
                 "data" => null
             ];
+        }
+    }
+
+
+    function obtenerMezclaEnProceso(): array
+    {
+        try {
+            $stmt = $this->db->query("SELECT proceso_agrupado_id, supervisor_validado
+            FROM procesos_clarificador_relacion pcr
+            INNER JOIN procesos_clarificador_detalle pcd
+            ON pcd.relacion_id = pcr.relacion_id
+            WHERE pcr.fecha_fin IS NULL
+            ORDER BY pcd.fecha_hora DESC LIMIT 1");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        } catch (PDOException $e) {
+            Logger::error("Error al obtener mezcla en proceso: {mensaje}", ['mensaje' => $e->getMessage()]);
+            return [];
+        }
+    }
+
+    function obtenerMezclaById(int $id): array
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT pro_id 
+            FROM zn_procesos_agrupados_detalle 
+            WHERE proceso_agrupado_id = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        } catch (PDOException $e) {
+            Logger::error("Error al obtener mezcla por ID: {mensaje}", ['mensaje' => $e->getMessage()]);
+            return [];
         }
     }
 }
